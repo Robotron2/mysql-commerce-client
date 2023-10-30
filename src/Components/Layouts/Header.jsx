@@ -68,8 +68,15 @@ const Header = () => {
 					</div>
 
 					<div className="login flex justify-between items-center w-56 col-span-3 col-start-4 row-start-1">
-						<Link className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out">Login</Link>
-						<Link className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out">Sign Up</Link>
+						<Link className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" to="/login">
+							Login
+						</Link>
+						<Link
+							className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+							to="/register"
+						>
+							Sign Up
+						</Link>
 					</div>
 
 					<div className="cart flex justify-between cursor-pointer items-center ">

@@ -1,17 +1,22 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios"
-import { createRef, useState } from "react"
+import { createRef, useEffect, useState } from "react"
 
 const CreateProduct = () => {
 	const [productName, setProductName] = useState("")
 	const [description, setDescription] = useState("")
 	const [price, setPrice] = useState("")
 	const [stockQuantity, setStockQuantity] = useState("")
-	const [category, setCategory] = useState(1)
+	const [category, setCategory] = useState("")
 	const [file, setFile] = useState(null)
+	const [categories, setCategories] = useState([])
 
 	const handleFileChange = (e) => {
 		setFile(e.target.files[0])
+	}
+
+	const handleSelectCategory = (e) => {
+		setCategory(e.target.value)
 	}
 
 	const handleFormSubmit = (e) => {
@@ -25,7 +30,7 @@ const CreateProduct = () => {
 		formData.append("stock_quantity", stockQuantity)
 
 		axios
-			.post("http://localhost:4000/products/create-product", formData)
+			.post(`${import.meta.env.VITE_REACT_APP_API}/products/create-product`, formData)
 			.then((response) => {
 				//response
 				console.log(response.data)
@@ -35,28 +40,23 @@ const CreateProduct = () => {
 				console.error(error)
 			})
 	}
-	// const handleFormSubmit = (e) => {
-	// 	e.preventDefault()
-	// 	const productData = {
-	// 		product_name: productName,
-	// 		description: description,
-	// 		price: price,
-	// 		stock_quantity: stockQuantity,
-	// 		image: image,
-	// 		categoryId: category
-	// 	}
-	// 	console.log(productData)
-	// 	axios
-	// 		.post("http://localhost:4000/products/create-product", productData)
-	// 		.then((response) => {
-	// 			//response
-	// 			console.log(response.data)
-	// 		})
-	// 		.catch((error) => {
-	// 			// error
-	// 			console.error(error)
-	// 		})
-	// }
+
+	async function getAllCategories() {
+		try {
+			const allCategories = await axios.get(`${import.meta.env.VITE_REACT_APP_API}/category/`)
+			if (allCategories) {
+				setCategories(allCategories.data)
+			} else {
+				throw Error("Something went wrong fam.")
+			}
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	useEffect(() => {
+		getAllCategories()
+	}, [])
 
 	return (
 		<div>
@@ -75,6 +75,19 @@ const CreateProduct = () => {
 				<div>
 					<input type="text" name="stock_quantity" placeholder="Stock Quantity" onChange={(e) => setStockQuantity(e.target.value)} />
 				</div>
+
+				<select className="form-select form-control rounded-pill" onChange={handleSelectCategory} value={category}>
+					<option disabled={true} value="">
+						Select a category
+					</option>
+					{categories.map((category) => {
+						return (
+							<option value={category.id} key={category.id}>
+								{category.categoryName}
+							</option>
+						)
+					})}
+				</select>
 
 				<div className="mb-3">
 					<label className="btn btn-outline-secondary col-md-12">
