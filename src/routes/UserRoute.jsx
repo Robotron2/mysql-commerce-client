@@ -3,28 +3,26 @@
 import { useEffect, useState } from "react"
 import { Outlet } from "react-router-dom"
 import axios from "axios"
-import Login from "../../Pages/Auth/Pages/Login"
-import useAuth from "./../CustomHooks/UseAuth"
-import Spinner from "../Utils/Spinner"
+import useAuth from "../customHooks/auth/useAuth"
+import Spinner from "../Components/Utils/Spinner"
+import Login from "../Pages/Auth/Pages/Login"
 
-const PrivateRoute = () => {
+const Admin = () => {
 	const [ok, setOk] = useState("")
 	const [spinner, setSpinner] = useState(null)
 	const [auth, setAuth] = useAuth()
-	const localAuth = JSON.parse(localStorage.getItem("auth"))
-
-	axios.defaults.withCredentials = true
+	const localAuth = JSON.parse(localStorage.getItem("accessToken"))
 
 	const authCheck = async () => {
 		setSpinner(true)
 		const apiEndpoint = `${import.meta.env.VITE_REACT_APP_API}`
 		try {
-			const authResponse = await axios.get(`${apiEndpoint}/auth/`, {
+			const authResponse = await axios.get(`${apiEndpoint}/auth/user/user-auth`, {
 				headers: {
-					Authorization: `Token ${localAuth?.token}`
+					accessToken: `${localAuth?.token}`
 				}
 			})
-			if (authResponse.data.success) {
+			if (authResponse.data.ok) {
 				setOk(true)
 				setSpinner(false)
 			}
@@ -48,4 +46,4 @@ const PrivateRoute = () => {
 	)
 }
 
-export default PrivateRoute
+export default Admin

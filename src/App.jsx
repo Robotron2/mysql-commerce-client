@@ -20,6 +20,9 @@ function App() {
 						<Route path="create-product" element={<CreateProduct />} />
 						<Route path="get-products" element={<AllProducts />} />
 					</Route>
+					<Route path="/user" element={<Admin />}>
+						<Route path="get-products" element={<AllProducts />} />
+					</Route>
 				</Routes>
 			</Router>
 		</>
