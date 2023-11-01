@@ -5,6 +5,7 @@ import CreateProduct from "./Pages/Admin/pages/CreateProduct"
 import AllProducts from "./Pages/Admin/pages/AllProducts"
 import Register from "./Pages/Auth/Pages/Register"
 import Login from "./Pages/Auth/Pages/Login"
+import Admin from "./routes/Admin"
 
 function App() {
 	return (
@@ -15,8 +16,10 @@ function App() {
 					<Route path="/register" element={<Register />} />
 					<Route path="/login" element={<Login />} />
 
-					<Route path="/create-product" element={<CreateProduct />} />
-					<Route path="/get-products" element={<AllProducts />} />
+					<Route path="/admin" element={<Admin />}>
+						<Route path="create-product" element={<CreateProduct />} />
+						<Route path="get-products" element={<AllProducts />} />
+					</Route>
 				</Routes>
 			</Router>
 		</>

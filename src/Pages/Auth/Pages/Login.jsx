@@ -3,11 +3,13 @@ import { ErrorMessage, Field, Form, Formik } from "formik"
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
 import * as Yup from "yup"
-import useAuth from "../../../customHooks/auth/useAuth.jsx"
+import useAuth from "../../../customHooks/auth/useAuth"
 
 function Login() {
 	const navigate = useNavigate()
+	// eslint-disable-next-line no-unused-vars
 	const [auth, setAuth] = useAuth()
+
 	const initialValues = {
 		email: "",
 		password: ""
@@ -21,24 +23,19 @@ function Login() {
 	const handleSubmit = async (data) => {
 		try {
 			const response = await axios.post(`${import.meta.env.VITE_REACT_APP_API}/auth/user/login`, data)
-			console.log(response)
-
-			if (response.data.success) {
-				//
-				toast.success("Logged in successfully")
-				setAuth({
-					...auth,
-					user: response.data.user,
-					token: response.data.token
-				})
-				localStorage.setItem("auth", JSON.stringify(response.data.token))
-				navigate(location.state || `/`)
-				// navigate("/login")
+			if (response.success === false) {
+				// console.log(response.data.error)
+				toast.error(response.data.error)
 			} else {
-				toast.error(response.data.message)
+				const data = response.data
+				console.log(response)
+				setAuth({ data })
+				localStorage.setItem("accessToken", JSON.stringify(data))
+				toast.success("Logged in successfully")
+				navigate(location.state || `/`)
 			}
 		} catch (error) {
-			// console.log(error)
+			// console.log(error.response.data.error)
 			toast.error(error.response.data.error)
 		}
 	}

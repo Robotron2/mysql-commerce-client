@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom"
 import brand from "../../assets/brandLogo.png"
 import { useState } from "react"
+import useAuth from "../../customHooks/auth/useAuth"
 
 const Header = () => {
 	const [nav, setNav] = useState(false)
+	// eslint-disable-next-line no-unused-vars
+	const [auth, setAuth] = useAuth()
+	console.log(auth)
 	// const [nav, setNav] = useState(true)
 	// "fixed top-0 left-[-100%] w-[300px] h-screen bg-white z-10 duration-500"
 	return (
@@ -67,17 +71,37 @@ const Header = () => {
 						<input type="text" placeholder="Search product name, category or type" className="w-full bg-transparent focus:outline-none" />
 					</div>
 
-					<div className="login flex justify-between items-center w-56 col-span-3 col-start-4 row-start-1">
-						<Link className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" to="/login">
-							Login
-						</Link>
-						<Link
-							className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
-							to="/register"
-						>
-							Sign Up
-						</Link>
-					</div>
+					{!auth ? (
+						<div className="login flex justify-between items-center w-56 col-span-3 col-start-4 row-start-1">
+							<Link
+								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+								to="/login"
+							>
+								Login
+							</Link>
+							<Link
+								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+								to="/register"
+							>
+								Sign Up
+							</Link>
+						</div>
+					) : (
+						<div className="login flex justify-between items-center w-56 col-span-3 col-start-4 row-start-1">
+							<Link
+								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+								to={"/admin/dashboard"}
+							>
+								{auth?.user.username}
+							</Link>
+							<Link
+								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+								to="/register"
+							>
+								Logout
+							</Link>
+						</div>
+					)}
 
 					<div className="cart flex justify-between cursor-pointer items-center ">
 						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

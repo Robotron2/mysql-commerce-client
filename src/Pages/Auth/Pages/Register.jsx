@@ -36,7 +36,7 @@ function Register() {
 	const handleSubmit = async (data) => {
 		try {
 			const response = await axios.post(`${import.meta.env.VITE_REACT_APP_API}/auth/user/register`, data)
-			console.log(response)
+			// console.log(response)
 			if (response.data.success) {
 				//
 				toast.success("Registered successfully")
