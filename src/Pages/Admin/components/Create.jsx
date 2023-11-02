@@ -44,12 +44,6 @@ function Create() {
 					//response
 					console.log(response.data)
 					if (response.data.success) {
-						setProductName("")
-						setPrice("")
-						setDescription("")
-						setStockQuantity("")
-						setFile(null)
-						setCategory("")
 						toast.success(response.data.message)
 					}
 				})
@@ -61,6 +55,12 @@ function Create() {
 			// console.log(error)
 			toast.error(error.message)
 		}
+		setProductName("")
+		setPrice("")
+		setDescription("")
+		setStockQuantity("")
+		setFile(null)
+		setCategory("")
 	}
 
 	async function getAllCategories() {
@@ -105,7 +105,7 @@ function Create() {
 					</div>
 					<div>
 						<input
-							type="text"
+							type="number"
 							name="price"
 							placeholder="Price"
 							onChange={(e) => setPrice(e.target.value)}
@@ -114,7 +114,7 @@ function Create() {
 					</div>
 					<div>
 						<input
-							type="text"
+							type="number"
 							name="stock_quantity"
 							placeholder="Stock Quantity"
 							onChange={(e) => setStockQuantity(e.target.value)}

@@ -1,12 +1,34 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import brand from "../../assets/brandLogo.png"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import useAuth from "../../customHooks/auth/useAuth"
+import toast from "react-hot-toast"
 
 const Header = () => {
 	const [nav, setNav] = useState(false)
 	// eslint-disable-next-line no-unused-vars
 	const [auth, setAuth] = useAuth()
+	const [isLoggedIn, setIsLoggedIn] = useState(false)
+	const [user, setUser] = useState(null)
+
+	const navigate = useNavigate()
+
+	const handleLogout = () => {
+		localStorage.removeItem("accessToken")
+		setIsLoggedIn(false)
+		toast.success("Logged out successfully!")
+		navigate("/")
+	}
+
+	useEffect(() => {
+		const userData = JSON.parse(localStorage.getItem("accessToken"))
+
+		if (userData) {
+			setIsLoggedIn(true)
+			setUser(userData.user)
+		}
+	}, [])
+
 	// console.log(auth)
 	// const [nav, setNav] = useState(true)
 	// "fixed top-0 left-[-100%] w-[300px] h-screen bg-white z-10 duration-500"
@@ -71,7 +93,22 @@ const Header = () => {
 						<input type="text" placeholder="Search product name, category or type" className="w-full bg-transparent focus:outline-none" />
 					</div>
 
-					{!auth ? (
+					{isLoggedIn ? (
+						<div className="login flex justify-between items-center w-56 col-span-3 col-start-4 row-start-1">
+							<Link
+								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+								to={"/admin/crud-product"}
+							>
+								{user.username}
+							</Link>
+							<Link
+								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+								onClick={handleLogout}
+							>
+								Logout
+							</Link>
+						</div>
+					) : (
 						<div className="login flex justify-between items-center w-56 col-span-3 col-start-4 row-start-1">
 							<Link
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
@@ -84,21 +121,6 @@ const Header = () => {
 								to="/register"
 							>
 								Sign Up
-							</Link>
-						</div>
-					) : (
-						<div className="login flex justify-between items-center w-56 col-span-3 col-start-4 row-start-1">
-							<Link
-								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
-								to={"/admin/crud-product"}
-							>
-								{auth?.user.username}
-							</Link>
-							<Link
-								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
-								to="/register"
-							>
-								Logout
 							</Link>
 						</div>
 					)}
