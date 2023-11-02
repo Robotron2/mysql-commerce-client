@@ -101,12 +101,12 @@ const Header = () => {
 							>
 								{user.username}
 							</Link>
-							<Link
+							<button
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 								onClick={handleLogout}
 							>
 								Logout
-							</Link>
+							</button>
 						</div>
 					) : (
 						<div className="login flex justify-between items-center w-56 col-span-3 col-start-4 row-start-1">

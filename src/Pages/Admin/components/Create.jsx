@@ -1,7 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
-
 function Create() {
 	const [productName, setProductName] = useState("")
 	const [description, setDescription] = useState("")
@@ -42,7 +41,7 @@ function Create() {
 				.post(`${import.meta.env.VITE_REACT_APP_API}/products/create-product`, formData)
 				.then((response) => {
 					//response
-					console.log(response.data)
+					// console.log(response.data)
 					if (response.data.success) {
 						toast.success(response.data.message)
 					}
@@ -92,6 +91,7 @@ function Create() {
 							placeholder="Product Name"
 							onChange={(e) => setProductName(e.target.value)}
 							className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
+							value={productName}
 						/>
 					</div>
 					<div>
@@ -101,6 +101,7 @@ function Create() {
 							placeholder="Product Description:"
 							onChange={(e) => setDescription(e.target.value)}
 							className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
+							value={description}
 						/>
 					</div>
 					<div>
@@ -110,6 +111,7 @@ function Create() {
 							placeholder="Price"
 							onChange={(e) => setPrice(e.target.value)}
 							className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
+							value={price}
 						/>
 					</div>
 					<div>
@@ -119,6 +121,7 @@ function Create() {
 							placeholder="Stock Quantity"
 							onChange={(e) => setStockQuantity(e.target.value)}
 							className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
+							value={stockQuantity}
 						/>
 					</div>
 
