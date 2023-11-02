@@ -26,7 +26,7 @@ const Admin = () => {
 				setOk(true)
 				setSpinner(false)
 			}
-			console.log(authResponse)
+			// console.log(authResponse)
 		} catch (error) {
 			console.log(error)
 			setOk(false)

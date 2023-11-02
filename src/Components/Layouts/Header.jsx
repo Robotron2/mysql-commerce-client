@@ -7,7 +7,7 @@ const Header = () => {
 	const [nav, setNav] = useState(false)
 	// eslint-disable-next-line no-unused-vars
 	const [auth, setAuth] = useAuth()
-	console.log(auth)
+	// console.log(auth)
 	// const [nav, setNav] = useState(true)
 	// "fixed top-0 left-[-100%] w-[300px] h-screen bg-white z-10 duration-500"
 	return (
@@ -90,7 +90,7 @@ const Header = () => {
 						<div className="login flex justify-between items-center w-56 col-span-3 col-start-4 row-start-1">
 							<Link
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
-								to={"/admin/dashboard"}
+								to={"/admin/crud-product"}
 							>
 								{auth?.user.username}
 							</Link>

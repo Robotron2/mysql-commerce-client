@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react"
 import axios from "axios"
-import Header from "../../../Components/Layouts/Header"
-import AdminLinks from "../components/AdminLinks"
+import { useEffect, useState } from "react"
 
-function AllProducts() {
+function Read() {
 	const [products, setProducts] = useState([])
 
 	useEffect(() => {
@@ -21,10 +19,6 @@ function AllProducts() {
 
 	return (
 		<>
-			<Header />
-			<div className="md:px-14 lg:px-44 bg-gray-900">
-				<AdminLinks />
-			</div>
 			<div className="font-semibold text-gray-900 text-center text-lg">
 				<h1>All Products</h1>
 			</div>
@@ -53,4 +47,4 @@ function AllProducts() {
 	)
 }
 
-export default AllProducts
+export default Read

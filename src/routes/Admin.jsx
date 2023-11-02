@@ -1,9 +1,3 @@
-// const Admin = () => {
-// 	return <div>Admin</div>
-// }
-
-// export default Admin
-
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react"
@@ -32,7 +26,7 @@ const Admin = () => {
 				setOk(true)
 				setSpinner(false)
 			}
-			console.log(authResponse)
+			// console.log(authResponse)
 		} catch (error) {
 			console.log(error)
 			setOk(false)
