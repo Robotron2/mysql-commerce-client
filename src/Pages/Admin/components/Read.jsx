@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
+import { LazyLoadImage } from "react-lazy-load-image-component"
 import { Link } from "react-router-dom"
 
 function Read() {
@@ -8,19 +9,29 @@ function Read() {
 	const [page, setPage] = useState(1)
 
 	useEffect(() => {
-		axios
-			.get(`${import.meta.env.VITE_REACT_APP_API}/products?page=${page}`)
-			.then((response) => {
-				// console.log(response)
-				if (response.data.products.length === 0) {
-					toast.error("All products have been fetched!")
-					setPage(1)
-				}
-				setProducts(response.data.products)
-			})
-			.catch((error) => {
-				console.log(error)
-			})
+		const localProducts = JSON.parse(sessionStorage.getItem("products-admin"))
+		if (localProducts && page == 1) {
+			setProducts(localProducts)
+		} else {
+			axios
+				.get(`${import.meta.env.VITE_REACT_APP_API}/products?page=${page}`)
+				.then((response) => {
+					// console.log(response)
+					if (response.data.products.length === 0) {
+						// toast.error("All products have been fetched!")
+						toast("All products have been fetched!")
+						setPage(1)
+					}
+					if (page === 1) {
+						sessionStorage.setItem("products-admin", JSON.stringify(response.data.products))
+						setProducts(response.data.products)
+					}
+					setProducts(response.data.products)
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+		}
 	}, [page])
 	const baseUrl = `${import.meta.env.VITE_REACT_APP_API}`
 
@@ -33,14 +44,20 @@ function Read() {
 				<div className=" mt-10 bg-gray-300 px-[16px] rounded-md shadow-lg">
 					<div className="grid grid-cols-12 mt-10  gap-4 pt-10">
 						{products.map((product) => {
+							// let imagePath = product.Image.filePath.replace("/public//g", "")
+							// let imagePath = product.Image.filePath.replace("/public//g", "public")
 							let imagePath = product.Image.filePath.replace("/public//g", "")
 							return (
-								<div
-									className="col-span-12 md:col-span-6 lg:col-span-3 bg-white text-gray-800 h-full mx-2 rounded-md shadow-lg transform hover:scale-95 transition duration-200"
-									key={product.id}
-								>
-									<div className="bg-white rounded-md">
-										<img src={`${baseUrl}/${imagePath}`} alt="Product Image" className=" object-cover h-full rounded-md" />
+								<div className="col-span-12 md:col-span-6 lg:col-span-3 bg-white text-gray-800 h-full mx-2 rounded-md shadow-lg " key={product.id}>
+									<div className="bg-white rounded-md transform hover:scale-105 transition duration-500">
+										<LazyLoadImage
+											alt="Product Image"
+											src={`${baseUrl}/${imagePath}`}
+											className=" object-cover h-full rounded-md w-full"
+											placeholderSrc="../../../../public/lazy.png"
+										/>
+
+										{/* <img src={`${baseUrl}/${imagePath}`} alt="Product Image" className=" object-cover h-full rounded-md" /> */}
 										<div className="p-2 rounded-md bg-white">
 											<h2>Product Name: {product.productName}</h2>
 											<h2>Category: {product.Category.categoryName}</h2>
@@ -62,8 +79,14 @@ function Read() {
 							)
 						})}
 					</div>
-					<div className="my-20">
-						<button onClick={() => setPage(page + 1)}>Click More</button>
+					<div className="my-20 justify-self-center">
+						<button
+							onClick={() => {
+								setPage(page + 1)
+							}}
+						>
+							Click More
+						</button>
 					</div>
 				</div>
 			</div>
