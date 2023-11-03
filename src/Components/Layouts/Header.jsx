@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom"
 import brand from "../../assets/brandLogo.png"
 import { useEffect, useState } from "react"
-import useAuth from "../../customHooks/auth/useAuth"
+
+import useAuth from "../CustomHooks/UseAuth"
 import toast from "react-hot-toast"
 
 const Header = () => {

@@ -1,12 +1,16 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { LazyLoadImage } from "react-lazy-load-image-component"
-import { Link } from "react-router-dom"
+// import { Link } from "react-router-dom"
+import UseProduct from "./../../../Components/CustomHooks/UseProduct"
+// import lazy from "../../../assets/lazy.png"
 
 function Read() {
 	const [products, setProducts] = useState([])
 	const [page, setPage] = useState(1)
+	const { productId, setProductId } = UseProduct()
 
 	useEffect(() => {
 		const localProducts = JSON.parse(sessionStorage.getItem("products-admin"))
@@ -38,23 +42,21 @@ function Read() {
 	return (
 		<>
 			<div className="md:px-14 lg:px-44">
-				<div className="font-semibold text-gray-900 text-center text-lg">
-					<h1>All Products</h1>
-				</div>
-				<div className=" mt-10 bg-gray-300 px-[16px] rounded-md shadow-lg">
-					<div className="grid grid-cols-12 mt-10  gap-4 pt-10">
+				<div className=" bg-gray-300 px-[16px] rounded-md shadow-lg">
+					<div className="font-semibold text-gray-900 text-center text-xl pt-10 mt-10">
+						<h1>All Products</h1>
+					</div>
+					<div className="grid grid-cols-12  gap-4 pt-8">
 						{products.map((product) => {
-							// let imagePath = product.Image.filePath.replace("/public//g", "")
-							// let imagePath = product.Image.filePath.replace("/public//g", "public")
 							let imagePath = product.Image.filePath.replace("/public//g", "")
 							return (
 								<div className="col-span-12 md:col-span-6 lg:col-span-3 bg-white text-gray-800 h-full mx-2 rounded-md shadow-lg " key={product.id}>
-									<div className="bg-white rounded-md transform hover:scale-105 transition duration-500">
+									<div className="bg-white rounded-md transform lg:hover:scale-105 transition duration-500">
 										<LazyLoadImage
 											alt="Product Image"
 											src={`${baseUrl}/${imagePath}`}
 											className=" object-cover h-full rounded-md w-full"
-											placeholderSrc="../../../../public/lazy.png"
+											placeholderSrc="../../../../src/assets/lazy.png"
 										/>
 
 										{/* <img src={`${baseUrl}/${imagePath}`} alt="Product Image" className=" object-cover h-full rounded-md" /> */}
@@ -71,8 +73,26 @@ function Read() {
 											</p>
 										</div>
 										<div className="p-2 grid grid-cols-2 gap-2">
-											<Link className="bg-green-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-green-700 transition ease-in-out duration-300">Update</Link>
-											<Link className="bg-red-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-red-700 transition ease-in-out duration-300">Delete</Link>
+											{/* <Link className="bg-green-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-green-700 transition ease-in-out duration-300">Update</Link> */}
+											{/* <Link className="bg-red-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-red-700 transition ease-in-out duration-300">Delete</Link> */}
+											<button
+												className="bg-green-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-green-700 transition ease-in-out duration-300"
+												onClick={() => {
+													setProductId(product.id)
+													toast(product.id)
+												}}
+											>
+												Update
+											</button>
+											<button
+												className="bg-red-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-red-700 transition ease-in-out duration-300"
+												onClick={() => {
+													setProductId(product.id)
+													toast(product.id)
+												}}
+											>
+												Delete
+											</button>
 										</div>
 									</div>
 								</div>

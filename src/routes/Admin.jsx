@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react"
 import { Outlet } from "react-router-dom"
 import axios from "axios"
-import useAuth from "../customHooks/auth/useAuth"
+
+import useAuth from "../Components/CustomHooks/UseAuth"
 import Spinner from "./../Components/Utils/Spinner"
 import Login from "../Pages/Auth/Pages/Login"
 

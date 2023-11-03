@@ -3,7 +3,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik"
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
 import * as Yup from "yup"
-import useAuth from "../../../customHooks/auth/useAuth"
+import useAuth from "../../../Components/CustomHooks/UseAuth"
 
 function Login() {
 	const navigate = useNavigate()
