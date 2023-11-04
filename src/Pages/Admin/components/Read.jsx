@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import UseProduct from "../hooks/UseProduct"
+import UseCrud from "../hooks/UseCrud"
 // import { Link } from "react-router-dom"
 // import lazy from "../../../assets/lazy.png"
 
@@ -11,6 +12,7 @@ function Read() {
 	const [products, setProducts] = useState([])
 	const [page, setPage] = useState(1)
 	const { productId, setProductId } = UseProduct()
+	const { view, setView } = UseCrud()
 	// const [view, setView] = useState("read")
 
 	useEffect(() => {
@@ -80,6 +82,7 @@ function Read() {
 												className="bg-green-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-green-700 transition ease-in-out duration-300"
 												onClick={() => {
 													setProductId(product.id)
+													setView("update")
 													toast(product.id)
 												}}
 											>
