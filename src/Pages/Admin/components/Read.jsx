@@ -3,14 +3,15 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { LazyLoadImage } from "react-lazy-load-image-component"
+import UseProduct from "../hooks/UseProduct"
 // import { Link } from "react-router-dom"
-import UseProduct from "./../../../Components/CustomHooks/UseProduct"
 // import lazy from "../../../assets/lazy.png"
 
 function Read() {
 	const [products, setProducts] = useState([])
 	const [page, setPage] = useState(1)
 	const { productId, setProductId } = UseProduct()
+	// const [view, setView] = useState("read")
 
 	useEffect(() => {
 		const localProducts = JSON.parse(sessionStorage.getItem("products-admin"))
