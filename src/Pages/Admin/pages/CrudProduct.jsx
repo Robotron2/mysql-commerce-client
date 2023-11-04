@@ -7,10 +7,11 @@ import toast from "react-hot-toast"
 import Create from "../components/Create"
 import Read from "../components/Read"
 import Update from "../components/Update"
+import UseCrud from "../hooks/UseCrud"
 
 const CrudProduct = () => {
-	// const { view, setView } = UseCrud()
-	const [view, setView] = useState("read")
+	const { view, setView } = UseCrud()
+	// const [view, setView] = useState("read")
 
 	return (
 		<div>
