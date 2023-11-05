@@ -18,6 +18,8 @@ function UpdateProduct() {
 	const [localImage, setLocalImage] = useState(false)
 	const [updateImage, setUpdateImage] = useState(false)
 
+	const localAuth = JSON.parse(localStorage.getItem("accessToken"))
+
 	const handleFocus = (e) => {
 		e.target.select()
 	}
@@ -61,16 +63,25 @@ function UpdateProduct() {
 		}
 
 		try {
-			console.log(updateImage)
+			// console.log(updateImage)
 			const response = await axios.put(
 				`${import.meta.env.VITE_REACT_APP_API}/products/product/${productId}`,
-				formData
+				formData,
+				{
+					headers: {
+						accessToken: `${localAuth?.token}`,
+					},
+				}
 			)
+			// console.log(response)
 			if (response.data.success) {
 				setProductId("")
 				setView("read")
 				sessionStorage.removeItem("products-admin")
 				toast.success(response.data.message)
+			}
+			if (response.data.error) {
+				toast.error(response.data.error)
 			}
 		} catch (error) {
 			console.error(error)

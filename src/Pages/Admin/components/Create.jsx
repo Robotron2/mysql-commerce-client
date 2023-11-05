@@ -12,6 +12,8 @@ function Create() {
 	const [file, setFile] = useState(null)
 	const [categories, setCategories] = useState([])
 
+	const localAuth = JSON.parse(localStorage.getItem("accessToken"))
+
 	const { view, setView } = UseCrud()
 
 	const handleFileChange = (e) => {
@@ -52,7 +54,12 @@ function Create() {
 			axios
 				.post(
 					`${import.meta.env.VITE_REACT_APP_API}/products/create-product`,
-					formData
+					formData,
+					{
+						headers: {
+							accessToken: `${localAuth?.token}`,
+						},
+					}
 				)
 				.then((response) => {
 					//response
@@ -61,6 +68,9 @@ function Create() {
 						sessionStorage.removeItem("products-admin")
 						setView("read")
 						toast.success(response.data.message)
+					}
+					if (response.data.error) {
+						toast.error(response.data.error)
 					}
 				})
 				.catch((error) => {

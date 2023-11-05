@@ -23,7 +23,7 @@ function Read() {
 			axios
 				.get(`${import.meta.env.VITE_REACT_APP_API}/products?page=${page}`)
 				.then((response) => {
-					console.log(response)
+					// console.log(response)
 					if (response.data.products.length === 0) {
 						// toast.error("All products have been fetched!")
 						toast("All products have been fetched!")
@@ -100,7 +100,6 @@ function Read() {
 												onClick={() => {
 													setProductId(product.id)
 													setView("update")
-													toast(product.id)
 												}}
 											>
 												Update
@@ -109,7 +108,7 @@ function Read() {
 												className="bg-red-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-red-700 transition ease-in-out duration-300"
 												onClick={() => {
 													setProductId(product.id)
-													toast(product.id)
+													setView("delete")
 												}}
 											>
 												Delete

@@ -8,6 +8,7 @@ import Create from "../components/Create"
 import Read from "../components/Read"
 import Update from "../components/Update"
 import UseCrud from "../hooks/UseCrud"
+import ProductDelete from "../components/ProductDelete"
 
 const CrudProduct = () => {
 	const { view, setView } = UseCrud()
@@ -32,7 +33,7 @@ const CrudProduct = () => {
 								setView("create")
 							}}
 						>
-							Create Products
+							Create Product
 						</h6>
 						<h6
 							className={
@@ -53,7 +54,16 @@ const CrudProduct = () => {
 									: "font-semibold text-sm hover:bg-white hover:text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer"
 							}
 						>
-							Update Products
+							Update Product
+						</h6>
+						<h6
+							className={
+								view === "delete"
+									? "font-semibold text-sm bg-white text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer"
+									: "font-semibold text-sm hover:bg-white hover:text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer"
+							}
+						>
+							Delete Product
 						</h6>
 					</div>
 				</>
@@ -62,6 +72,7 @@ const CrudProduct = () => {
 			{view === "read" && <Read />}
 			{view === "create" && <Create />}
 			{view === "update" && <Update />}
+			{view === "delete" && <ProductDelete />}
 		</div>
 	)
 }
