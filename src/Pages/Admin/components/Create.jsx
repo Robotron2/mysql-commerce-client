@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
+import UseCrud from "../hooks/UseCrud"
 function Create() {
 	const [productName, setProductName] = useState("")
 	const [description, setDescription] = useState("")
@@ -9,6 +11,8 @@ function Create() {
 	const [category, setCategory] = useState("")
 	const [file, setFile] = useState(null)
 	const [categories, setCategories] = useState([])
+
+	const { view, setView } = UseCrud()
 
 	const handleFileChange = (e) => {
 		setFile(e.target.files[0])
@@ -22,8 +26,16 @@ function Create() {
 		e.preventDefault()
 
 		try {
-			if (productName === "" || description === "" || price === "" || stockQuantity === "" || category === "") {
-				throw Error("All fields must be filled before you can create a product!")
+			if (
+				productName === "" ||
+				description === "" ||
+				price === "" ||
+				stockQuantity === "" ||
+				category === ""
+			) {
+				throw Error(
+					"All fields must be filled before you can create a product!"
+				)
 			}
 
 			if (file === null) {
@@ -38,11 +50,16 @@ function Create() {
 			formData.append("stock_quantity", stockQuantity)
 
 			axios
-				.post(`${import.meta.env.VITE_REACT_APP_API}/products/create-product`, formData)
+				.post(
+					`${import.meta.env.VITE_REACT_APP_API}/products/create-product`,
+					formData
+				)
 				.then((response) => {
 					//response
 					// console.log(response.data)
 					if (response.data.success) {
+						sessionStorage.removeItem("products-admin")
+						setView("read")
 						toast.success(response.data.message)
 					}
 				})
@@ -64,7 +81,9 @@ function Create() {
 
 	async function getAllCategories() {
 		try {
-			const allCategories = await axios.get(`${import.meta.env.VITE_REACT_APP_API}/category/`)
+			const allCategories = await axios.get(
+				`${import.meta.env.VITE_REACT_APP_API}/category/`
+			)
 			if (allCategories) {
 				setCategories(allCategories.data)
 			} else {
@@ -126,7 +145,11 @@ function Create() {
 					</div>
 
 					<div className="flex justify-between my-1">
-						<select className="form-select form-control rounded-pill" onChange={handleSelectCategory} value={category}>
+						<select
+							className="form-select form-control rounded-pill"
+							onChange={handleSelectCategory}
+							value={category}
+						>
 							<option disabled={true} value="">
 								Select a category
 							</option>
@@ -142,11 +165,19 @@ function Create() {
 						<div>
 							<label className="btn btn-outline-secondary col-md-12">
 								{/* <input type="file" name="image" accept="image/*" onChange={handleImageChange} /> */}
-								<input type="file" name="image" accept="image/*" onChange={handleFileChange} />
+								<input
+									type="file"
+									name="image"
+									accept="image/*"
+									onChange={handleFileChange}
+								/>
 							</label>
 						</div>
 					</div>
-					<button type="submit" className="bg-gray-600 text-white p-2 rounded-lg m-2 w-full">
+					<button
+						type="submit"
+						className="bg-gray-600 text-white p-2 rounded-lg m-2 w-full"
+					>
 						Create Product
 					</button>
 				</form>
