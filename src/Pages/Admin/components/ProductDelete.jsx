@@ -35,6 +35,9 @@ function ProductDelete() {
 					sessionStorage.removeItem("products-admin")
 					toast.success(response.data.message)
 				}
+				if (response.data.suceess == false) {
+					toast.error(response.data.message)
+				}
 				if (response.data.error) {
 					toast.error(response.data.error)
 				}
