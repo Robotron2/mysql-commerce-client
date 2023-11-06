@@ -4,11 +4,13 @@ import { useEffect, useState } from "react"
 
 import useAuth from "../CustomHooks/UseAuth"
 import toast from "react-hot-toast"
+import UseCrud from "../../Pages/Admin/hooks/UseCrud"
 
 const Header = () => {
+	const [auth, setAuth] = useAuth()
+	const { view, setView } = UseCrud()
 	const [nav, setNav] = useState(false)
 	// eslint-disable-next-line no-unused-vars
-	const [auth, setAuth] = useAuth()
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const [user, setUser] = useState(null)
 
@@ -36,11 +38,12 @@ const Header = () => {
 	return (
 		<>
 			{nav && (
-				<div className="overlay w-full h-screen bg-black/80 fixed top-0 left-0 z-10 transition ease-in-out duration-500"></div>
+				<div className="overlay w-full h-screen bg-black/80 fixed top-0 left-0 z-10 transition ease-in-out duration-700"></div>
 			)}
-			<div className="bg-gray-800 text-white p-4">
+			{/* <div className="bg-red-800 text-white p-4 max-w-[1640px]"> */}
+			<div className="bg-gray-800 text-white p-4 ">
 				{nav && (
-					<div className="fixed top-0 left-0 w-[300px] h-screen bg-gray-200 z-10 duration-500">
+					<div className="fixed top-0 left-0 w-[300px] h-screen bg-gray-200 z-10 duration-700 transition ease-in-out">
 						{/* close nav */}
 						<div
 							className="flex justify-between items-center p-1 text-gray-800"
@@ -85,15 +88,80 @@ const Header = () => {
 									<li className="text-xl flex my-2">All categories</li>
 								</Link>
 							</ul>
+
+							{view == "create" ||
+							view == "read" ||
+							view == "update" ||
+							view == "delete" ? (
+								<ul>
+									<Link>
+										<li className="text-lg flex my-2">Dashboard</li>
+									</Link>
+									<Link>
+										<li className="text-lg flex my-2">Product Management</li>
+									</Link>
+									<Link>
+										<li className="text-lg flex my-2">Order Mangement</li>
+									</Link>
+									<Link>
+										<li className="text-lg flex my-2">User Management</li>
+									</Link>
+									<Link>
+										<li className="text-lg flex my-2">Reports and ANalytics</li>
+									</Link>
+									<Link>
+										<li className="text-lg flex my-2">Settings</li>
+									</Link>
+								</ul>
+							) : (
+								""
+							)}
+
+							<ul>
+								{isLoggedIn ? (
+									<div className="col-start-10 row-start-1 col-span-12 login flex justify-between items-center w-56 ">
+										<Link
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											to={"/admin/crud-product"}
+										>
+											{user.username}
+										</Link>
+										<button
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											onClick={handleLogout}
+										>
+											Logout
+										</button>
+									</div>
+								) : (
+									<div className="col-start-10 row-start-1 col-span-12 login flex justify-between items-center w-56 ">
+										<Link
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											to="/login"
+										>
+											Login
+										</Link>
+										<Link
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											to="/register"
+										>
+											Sign Up
+										</Link>
+									</div>
+								)}
+							</ul>
 						</nav>
 					</div>
 				)}
 
 				{/*Large screen*/}
-				<div className="grid grid-cols-4 gap-1 lg:flex lg:justify-between items-center md:px-20">
+				{/* <div className="grid grid-cols-12 gap-2 w-full  lg:flex lg:justify-between items-center md:px-20 bg-white"> */}
+				<div className="grid grid-cols-12 gap-2 w-full  lg:flex lg:justify-between items-center md:px-20 ">
 					{/* Open nav on mobile */}
+
+					{/* Menu Bar */}
 					<div
-						className="nav-menu md:hidden text-white text-2xl  flex items-center"
+						className="col-start-1 col-span-4 row-start-1   nav-menu md:hidden text-whitetext-2xl  flex items-center"
 						onClick={() => setNav(!nav)}
 					>
 						<svg
@@ -112,15 +180,21 @@ const Header = () => {
 						</svg>
 					</div>
 
+					{/* Logo */}
 					<div
-						className="logo hidden md:flex items-center col-span-1 cursor-pointer"
+						className="logo col-start-4 row-start-1 col-span-6  md:flex items-center cursor-pointer text-center"
 						onClick={() => navigate("/")}
 					>
-						<img src={brand} alt="Brand" className="w-10 lg:w-full h-10" />
+						<img
+							src={brand}
+							alt="Brand"
+							className="w-10 lg:w-full h-10 hidden md:block"
+						/>
 						<h1 className="font-bold text-gray-100">RoboShopp</h1>
 					</div>
 
-					<div className="search flex bg-gray-500 items-center w-96 p-2 rounded-full col-span-4">
+					{/* Search Bar */}
+					<div className="search col-start-1 row-start-2  col-span-10  flex bg-gray-500 items-center w-96 p-2 rounded-full ">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
@@ -142,8 +216,9 @@ const Header = () => {
 						/>
 					</div>
 
+					{/* Auth State */}
 					{isLoggedIn ? (
-						<div className="login flex justify-between items-center w-56 col-span-3 col-start-4 row-start-1">
+						<div className=" login hidden md:flex justify-between items-center w-56 ">
 							<Link
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 								to={"/admin/crud-product"}
@@ -158,7 +233,7 @@ const Header = () => {
 							</button>
 						</div>
 					) : (
-						<div className="login flex justify-between items-center w-56 col-span-3 col-start-4 row-start-1">
+						<div className=" login hidden lg:flex justify-between items-center w-56 ">
 							<Link
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 								to="/login"
@@ -174,7 +249,8 @@ const Header = () => {
 						</div>
 					)}
 
-					<div className="cart flex justify-between cursor-pointer items-center ">
+					{/* Cart */}
+					<div className="cart col-start-10 row-start-2 col-span-2 flex md:justify-between cursor-pointer items-center ">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
