@@ -1,6 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom"
+import UseCrud from "../hooks/UseCrud"
 
 function AdminLinks() {
+	const { view, setView } = UseCrud()
+
 	return (
 		<>
 			<div className="w-full secondary-nav md:flex justify-around lg:justify-between items-center p-3 text-white">
@@ -8,7 +12,16 @@ function AdminLinks() {
 					<Link>Dashboard</Link>
 					{/* A dashboard with an overview of key e-commerce metrics like sales, orders, and product management tools. */}
 				</h6>
-				<h6 className="font-semibold text-sm hover:bg-white hover:text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer">
+				<h6
+					className={
+						view == "create" ||
+						view == "read" ||
+						view == "update" ||
+						view == "delete"
+							? "bg-white font-semibold text-sm text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer"
+							: "font-semibold text-sm hover:bg-white hover:text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer"
+					}
+				>
 					<Link to={"/admin/crud-product"}>Product Management</Link>
 					{/* Pages to add, edit, and delete products. Product categories and attributes can also be managed here. */}
 				</h6>

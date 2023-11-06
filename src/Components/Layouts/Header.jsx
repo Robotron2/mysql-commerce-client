@@ -35,17 +35,33 @@ const Header = () => {
 	// "fixed top-0 left-[-100%] w-[300px] h-screen bg-white z-10 duration-500"
 	return (
 		<>
-			{nav && <div className="overlay w-full h-screen bg-black/80 fixed top-0 left-0 z-10 transition ease-in-out duration-500"></div>}
+			{nav && (
+				<div className="overlay w-full h-screen bg-black/80 fixed top-0 left-0 z-10 transition ease-in-out duration-500"></div>
+			)}
 			<div className="bg-gray-800 text-white p-4">
 				{nav && (
 					<div className="fixed top-0 left-0 w-[300px] h-screen bg-gray-200 z-10 duration-500">
 						{/* close nav */}
-						<div className="flex justify-between items-center p-1 text-gray-800" onClick={() => setNav(!nav)}>
+						<div
+							className="flex justify-between items-center p-1 text-gray-800"
+							onClick={() => setNav(!nav)}
+						>
 							<h2 className="text-2xl p-4 ">
 								Robo<span className="font-bold underline">Shopp</span>
 							</h2>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 mr-2 font-extrabold cursor-pointer">
-								<path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								strokeWidth="1.5"
+								stroke="currentColor"
+								className="w-8 h-8 mr-2 font-extrabold cursor-pointer"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M6 18L18 6M6 6l12 12"
+								/>
 							</svg>
 						</div>
 						<nav>
@@ -76,22 +92,54 @@ const Header = () => {
 				{/*Large screen*/}
 				<div className="grid grid-cols-4 gap-1 lg:flex lg:justify-between items-center md:px-20">
 					{/* Open nav on mobile */}
-					<div className="nav-menu md:hidden text-white text-2xl  flex items-center" onClick={() => setNav(!nav)}>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 cursor-pointer">
-							<path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+					<div
+						className="nav-menu md:hidden text-white text-2xl  flex items-center"
+						onClick={() => setNav(!nav)}
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							strokeWidth="1.5"
+							stroke="currentColor"
+							className="w-6 h-6 cursor-pointer"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+							/>
 						</svg>
 					</div>
 
-					<div className="logo hidden md:flex items-center col-span-1">
+					<div
+						className="logo hidden md:flex items-center col-span-1 cursor-pointer"
+						onClick={() => navigate("/")}
+					>
 						<img src={brand} alt="Brand" className="w-10 lg:w-full h-10" />
 						<h1 className="font-bold text-gray-100">RoboShopp</h1>
 					</div>
 
 					<div className="search flex bg-gray-500 items-center w-96 p-2 rounded-full col-span-4">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-							<path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							strokeWidth="1.5"
+							stroke="currentColor"
+							className="w-6 h-6"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+							/>
 						</svg>
-						<input type="text" placeholder="Search product name, category or type" className="w-full bg-transparent focus:outline-none" />
+						<input
+							type="text"
+							placeholder="Search product name, category or type"
+							className="w-full bg-transparent focus:outline-none"
+						/>
 					</div>
 
 					{isLoggedIn ? (
@@ -127,7 +175,14 @@ const Header = () => {
 					)}
 
 					<div className="cart flex justify-between cursor-pointer items-center ">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							strokeWidth="1.5"
+							stroke="currentColor"
+							className="w-6 h-6"
+						>
 							<path
 								strokeLinecap="round"
 								strokeLinejoin="round"
