@@ -124,7 +124,7 @@ function ProductDelete() {
 										{product.description.substring(0, 15) + "..."}
 									</p>
 									<p>
-										<span className="font-semibold">Price: </span>
+										<span className="font-semibold">Price:Money </span>
 										<span className="font-bold ml-1">
 											${product.price}.<span className="text-xs">99</span>
 										</span>
@@ -136,6 +136,12 @@ function ProductDelete() {
 										onClick={() => setIsConfirming(true)}
 									>
 										Delete
+									</button>
+									<button
+										className="bg-gray-700 text-white text-center rounded-md py-2 md:col-span-2 hover:bg-gray-800 transition ease-in-out duration-300"
+										onClick={() => setView("read")}
+									>
+										Back
 									</button>
 								</div>
 							</div>

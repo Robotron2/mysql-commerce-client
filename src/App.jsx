@@ -6,6 +6,7 @@ import AllProducts from "./Pages/Admin/pages/AllProducts"
 import Register from "./Pages/Auth/Pages/Register"
 import Login from "./Pages/Auth/Pages/Login"
 import Admin from "./routes/Admin"
+import UserManagement from "./Pages/Admin/pages/UserManagement"
 
 function App() {
 	return (
@@ -17,8 +18,12 @@ function App() {
 					<Route path="/login" element={<Login />} />
 
 					<Route path="/admin" element={<Admin />}>
+						{/* Product Management */}
 						<Route path="crud-product" element={<CreateProduct />} />
 						<Route path="get-products" element={<AllProducts />} />
+
+						{/* User Management */}
+						<Route path="user-management" element={<UserManagement />} />
 					</Route>
 					<Route path="/user" element={<Admin />}>
 						<Route path="get-products" element={<AllProducts />} />

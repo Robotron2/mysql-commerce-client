@@ -12,27 +12,40 @@ function AdminLinks() {
 					<Link>Dashboard</Link>
 					{/* A dashboard with an overview of key e-commerce metrics like sales, orders, and product management tools. */}
 				</h6>
-				<h6
-					className={
-						view == "create" ||
-						view == "read" ||
-						view == "update" ||
-						view == "delete"
-							? "bg-white font-semibold text-sm text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer"
-							: "font-semibold text-sm hover:bg-white hover:text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer"
-					}
-				>
-					<Link to={"/admin/crud-product"}>Product Management</Link>
-					{/* Pages to add, edit, and delete products. Product categories and attributes can also be managed here. */}
-				</h6>
+				<Link to={"/admin/crud-product"}>
+					<h6
+						className={
+							view == "create" ||
+							view == "read" ||
+							view == "update" ||
+							view == "delete"
+								? "bg-white font-semibold text-sm text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer"
+								: "font-semibold text-sm hover:bg-white hover:text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer"
+						}
+						onClick={() => setView("read")}
+					>
+						Product Management
+						{/* Pages to add, edit, and delete products. Product categories and attributes can also be managed here. */}
+					</h6>
+				</Link>
 				<h6 className="font-semibold text-sm hover:bg-white hover:text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer">
 					<Link>Order Management</Link>
 					{/* Admins should have access to view and manage orders, update order statuses, and handle customer inquiries. */}
 				</h6>
-				<h6 className="font-semibold text-sm hover:bg-white hover:text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer">
-					<Link>User Manegement</Link>
-					{/* If admin roles are tied to users, you might need user management pages for managing admin accounts and other users. */}
-				</h6>
+				<Link to={"/admin/user-management"}>
+					<h6
+						className={
+							view == "all-users"
+								? "bg-white font-semibold text-sm text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer"
+								: "font-semibold text-sm hover:bg-white hover:text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer"
+						}
+						onClick={() => setView("all-users")}
+					>
+						User Manegement
+						{/* <Link to={"/"}>User Manegement</Link> */}
+						{/* If admin roles are tied to users, you might need user management pages for managing admin accounts and other users. */}
+					</h6>
+				</Link>
 				<h6 className="font-semibold text-sm hover:bg-white hover:text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer">
 					<Link>Reports and Analytics</Link>
 					{/* Admins might need access to reporting and analytics tools to analyze sales data, customer behavior, and other e-commerce metrics. */}

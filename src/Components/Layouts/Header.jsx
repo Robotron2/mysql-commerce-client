@@ -20,6 +20,7 @@ const Header = () => {
 		localStorage.removeItem("accessToken")
 		setIsLoggedIn(false)
 		toast.success("Logged out successfully!")
+		setView("")
 		navigate("/")
 	}
 
@@ -166,7 +167,8 @@ const Header = () => {
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
+							// fill="none"
+							fill="#00000"
 							viewBox="0 0 24 24"
 							strokeWidth="1.5"
 							stroke="currentColor"
@@ -194,7 +196,7 @@ const Header = () => {
 					</div>
 
 					{/* Search Bar */}
-					<div className="search col-start-1 row-start-2  col-span-10  flex bg-gray-500 items-center w-96 p-2 rounded-full ">
+					<div className="search col-start-1 row-start-2  col-span-10  flex bg-gray-500 items-center w-80 sm:w-96 p-2 rounded-full mx-auto">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
@@ -218,7 +220,7 @@ const Header = () => {
 
 					{/* Auth State */}
 					{isLoggedIn ? (
-						<div className=" login hidden md:flex justify-between items-center w-56 ">
+						<div className=" login hidden lg:flex justify-between items-center w-56 ">
 							<Link
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 								to={"/admin/crud-product"}
@@ -250,7 +252,7 @@ const Header = () => {
 					)}
 
 					{/* Cart */}
-					<div className="cart col-start-10 row-start-2 col-span-2 flex md:justify-between cursor-pointer items-center ">
+					<div className="cart col-start-10 row-start-1 col-span-2 flex md:justify-around cursor-pointer items-center bg-white  ">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
