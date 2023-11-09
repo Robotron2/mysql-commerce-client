@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import ProductFilter from "../components/ProductFilter"
 import ProductList from "../components/ProductList"
 import toast from "react-hot-toast"
-import Header from "../../../Components/Layouts/Header"
+// import Header from "../../../Components/Layouts/Header"
 
 function ProductCatalog() {
 	const [products, setProducts] = useState([])

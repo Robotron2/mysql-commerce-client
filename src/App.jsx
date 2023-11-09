@@ -20,6 +20,7 @@ function App() {
 
 					{/* Product Browsing */}
 					<Route path="/products" element={<ProductCatalog />} />
+					<Route path="/products/:id" element={<ProductCatalog />} />
 
 					<Route path="/admin" element={<Admin />}>
 						{/* Product Management */}
