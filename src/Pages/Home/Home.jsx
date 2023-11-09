@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom"
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Link, useNavigate } from "react-router-dom"
 import Header from "../../Components/Layouts/Header"
 import Image from "../../assets/image1.jpg"
 import Image2 from "../../assets/image2.jpg"
@@ -19,9 +21,36 @@ import "swiper/swiper-bundle.css"
 import "swiper/css"
 import CategoryLinks from "./components/CategoryLinks"
 
+import SubNav from "./componennts/SubNav"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import ProductList from "../Products/components/ProductList"
+
 function Home() {
-	const myArray = [1, 2, 3, 4, 5, 6]
+	// const myArray = [1, 2, 3, 4, 5, 6]
 	const sliderArray = ["Image", "Image2", "Image", "Image2"]
+	const [products, setProducts] = useState([])
+	const [page, setPage] = useState(1)
+	const navigate = useNavigate()
+
+	const randomProducts = async () => {
+		axios
+			.get(
+				`${import.meta.env.VITE_REACT_APP_API}/products?page=${page}&limit=4`
+			)
+			.then((response) => {
+				// console.log(response)
+				setProducts(response.data.products)
+			})
+			.catch((error) => {
+				console.log(error)
+			})
+	}
+
+	useEffect(() => {
+		randomProducts()
+	}, [page])
+
 	return (
 		<>
 			<Header />
@@ -105,12 +134,12 @@ function Home() {
 			</div>
 			<div className="top-category bg-inherit md:px-14 lg:px-44 mt-6">
 				<div className=" bg-gray-900/90 rounded-tr-lg rounded-tl-lg flex justify-between p-3 text-white font-bold shadow-xl">
-					<h4 className="text-2xl">Today&apos;s Deals</h4>
-					<Link>
+					<h4 className="text-2xl">Products</h4>
+					<Link to={"/products"}>
 						<h6 className="font-semibold cursor-pointer">See all</h6>
 					</Link>
 				</div>
-				<div className="deal-grid grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-2 pt-2">
+				{/* <div className="deal-grid grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-2 pt-2">
 					{myArray.map((_, i) => {
 						return (
 							<Link key={i + 1}>
@@ -130,7 +159,8 @@ function Home() {
 							</Link>
 						)
 					})}
-				</div>
+				</div> */}
+				<ProductList products={products} />
 			</div>
 
 			<Footer />

@@ -78,7 +78,7 @@ function Create() {
 					console.error(error)
 				})
 		} catch (error) {
-			// console.log(error)
+			console.log(error)
 			toast.error(error.message)
 		}
 		setProductName("")

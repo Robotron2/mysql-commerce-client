@@ -1,14 +1,17 @@
+/* eslint-disable no-unused-vars */
 import { Link, useNavigate } from "react-router-dom"
 import brand from "../../assets/brandLogo.png"
 import { useEffect, useState } from "react"
 
 import useAuth from "../CustomHooks/UseAuth"
 import toast from "react-hot-toast"
+import UseCrud from "../../Pages/Admin/hooks/UseCrud"
 
 const Header = () => {
+	const [auth, setAuth] = useAuth()
+	const { view, setView } = UseCrud()
 	const [nav, setNav] = useState(false)
 	// eslint-disable-next-line no-unused-vars
-	const [auth, setAuth] = useAuth()
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const [user, setUser] = useState(null)
 
@@ -18,6 +21,7 @@ const Header = () => {
 		localStorage.removeItem("accessToken")
 		setIsLoggedIn(false)
 		toast.success("Logged out successfully!")
+		setView("")
 		navigate("/")
 	}
 
@@ -43,7 +47,7 @@ const Header = () => {
 			)}
 			<div className="bg-gray-800 text-white p-4">
 				{nav && (
-					<div className="fixed top-0 left-0 w-[300px] h-screen bg-gray-200 z-10 duration-500">
+					<div className="fixed top-0 left-0 w-[300px] h-screen bg-gray-200 z-10 duration-700 transition ease-in-out">
 						{/* close nav */}
 						<div
 							className="flex justify-between items-center p-1 text-gray-800"
@@ -120,6 +124,68 @@ const Header = () => {
 									</div>
 								)}
 							</ul>
+
+							{view == "create" ||
+							view == "read" ||
+							view == "update" ||
+							view == "delete" ? (
+								<ul>
+									<Link>
+										<li className="text-lg flex my-2">Dashboard</li>
+									</Link>
+									<Link>
+										<li className="text-lg flex my-2">Product Management</li>
+									</Link>
+									<Link>
+										<li className="text-lg flex my-2">Order Mangement</li>
+									</Link>
+									<Link>
+										<li className="text-lg flex my-2">User Management</li>
+									</Link>
+									<Link>
+										<li className="text-lg flex my-2">Reports and ANalytics</li>
+									</Link>
+									<Link>
+										<li className="text-lg flex my-2">Settings</li>
+									</Link>
+								</ul>
+							) : (
+								""
+							)}
+
+							<ul>
+								{isLoggedIn ? (
+									<div className="col-start-10 row-start-1 col-span-12 login flex justify-between items-center w-56 ">
+										<Link
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											to={"/admin/crud-product"}
+										>
+											{user.username}
+										</Link>
+										<button
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											onClick={handleLogout}
+										>
+											Logout
+										</button>
+									</div>
+								) : (
+									<div className="col-start-10 row-start-1 col-span-12 login flex justify-between items-center w-56 ">
+										<Link
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											to="/login"
+										>
+											Login
+										</Link>
+										<Link
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											to="/register"
+										>
+											Sign Up
+										</Link>
+									</div>
+								)}
+							</ul>
 						</nav>
 					</div>
 				)}
@@ -177,6 +243,7 @@ const Header = () => {
 						/>
 					</div>
 
+					{/* Auth State */}
 					{isLoggedIn ? (
 						<div className="login md:flex justify-between items-center w-56 col-span-3 hidden md:col-start-7 row-start-1">
 							<Link
