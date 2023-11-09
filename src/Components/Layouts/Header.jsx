@@ -147,12 +147,15 @@ const Header = () => {
 						</svg>
 					</div>
 
-					<div className="logo flex items-center col-span-1 col-start-2 lg:col-start-1 row-start-1 row-span-2">
+					<Link
+						to={"/"}
+						className="logo flex items-center col-span-1 col-start-2 lg:col-start-1 row-start-1 row-span-2 cursor-pointer"
+					>
 						<img src={brand} alt="Brand" className="w-10 lg:w-full h-10" />
 						<h1 className="font-bold text-gray-100">RoboShopp</h1>
-					</div>
+					</Link>
 
-					<div className="search flex bg-gray-500 items-center w-full lg:w-80 p-1 md:p-2 rounded-full col-start-2 lg:col-start-3 col-end-10 row-start-3">
+					<div className="search flex bg-gray-500 items-center w-full lg:w-96 p-1 md:p-2 rounded-full col-start-2 lg:col-start-3 col-end-10 row-start-3">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
