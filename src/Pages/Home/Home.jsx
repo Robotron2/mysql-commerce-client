@@ -6,7 +6,13 @@ import Footer from "../../Components/Layouts/Footer"
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper/modules"
+import {
+	Navigation,
+	Pagination,
+	Scrollbar,
+	A11y,
+	Autoplay,
+} from "swiper/modules"
 import "swiper/swiper-bundle.css"
 
 // Import Swiper styles
@@ -18,7 +24,7 @@ function Home() {
 	return (
 		<>
 			<Header />
-			<div className="md:px-14 lg:px-44 bg-gray-900">
+			{/* <div className="md:px-14 lg:px-44 bg-gray-900">
 				<div className="w-full secondary-nav md:flex justify-around lg:justify-between items-center p-3 text-white">
 					<h6 className="font-semibold text-sm hover:bg-white hover:text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer">All</h6>
 					<h6 className="font-semibold text-sm hover:bg-white hover:text-gray-900 p-2 rounded transition duration-300 ease-in-out cursor-pointer">Phones</h6>
@@ -109,9 +115,9 @@ function Home() {
 						)
 					})}
 				</div>
-			</div>
+			</div> */}
 
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	)
 }
