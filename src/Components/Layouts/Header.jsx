@@ -87,13 +87,45 @@ const Header = () => {
 								<Link>
 									<li className="text-xl flex my-2">All categories</li>
 								</Link>
+
+								{isLoggedIn ? (
+									<div className="login flex justify-between items-center w-56 mt-6">
+										<Link
+											className="mx-1 bg-slate-500 text-white p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-gray-700  transition duration-300 ease-in-out"
+											to={"/admin/crud-product"}
+										>
+											{user.username}
+										</Link>
+										<button
+											className="mx-1 bg-slate-500 text-white p-2 rounded-full w-full text-sm text-center  font-semibold hover:bg-gray-700  transition duration-300 ease-in-out"
+											onClick={handleLogout}
+										>
+											Logout
+										</button>
+									</div>
+								) : (
+									<div className="login  md:flex justify-between items-center w-56  mt-6">
+										<Link
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											to="/login"
+										>
+											Login
+										</Link>
+										<Link
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											to="/register"
+										>
+											Sign Up
+										</Link>
+									</div>
+								)}
 							</ul>
 						</nav>
 					</div>
 				)}
 
 				{/*Large screen*/}
-				<div className="grid grid-cols-12 gap-1 lg:flex lg:justify-between items-center md:px-20">
+				<div className="grid grid-cols-12 gap-1 lg:flex lg:justify-between items-center md:px-10">
 					{/* Open nav on mobile */}
 					<div
 						className="nav-menu lg:hidden text-white text-2xl  flex items-center col-span-1 col-start-1 col-end-1 row-start-3"
@@ -115,12 +147,12 @@ const Header = () => {
 						</svg>
 					</div>
 
-					<div className="logo flex items-center col-span-1 col-start-2 row-start-1 row-span-2">
+					<div className="logo flex items-center col-span-1 col-start-2 lg:col-start-1 row-start-1 row-span-2">
 						<img src={brand} alt="Brand" className="w-10 lg:w-full h-10" />
 						<h1 className="font-bold text-gray-100">RoboShopp</h1>
 					</div>
 
-					<div className="search flex bg-gray-500 items-center w-full p-1 md:p-2 rounded-full  col-start-2 col-end-10 row-start-3">
+					<div className="search flex bg-gray-500 items-center w-full lg:w-80 p-1 md:p-2 rounded-full col-start-2 lg:col-start-3 col-end-10 row-start-3">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
@@ -143,7 +175,7 @@ const Header = () => {
 					</div>
 
 					{isLoggedIn ? (
-						<div className="login  flex justify-between items-center w-56 col-span-3 col-start-7 row-start-1">
+						<div className="login md:flex justify-between items-center w-56 col-span-3 hidden md:col-start-7 row-start-1">
 							<Link
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 								to={"/admin/crud-product"}
@@ -151,7 +183,7 @@ const Header = () => {
 								{user.username}
 							</Link>
 							<button
-								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+								className=" mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 								onClick={handleLogout}
 							>
 								Logout
@@ -174,7 +206,7 @@ const Header = () => {
 						</div>
 					)}
 
-					<div className="cart col-start-11 col-span-2 row-start-3 flex md:justify-between cursor-pointer items-center ">
+					<div className="cart col-start-11 col-span-2 md:row-start-3 row-start-2 flex md:justify-between cursor-pointer items-center ">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
