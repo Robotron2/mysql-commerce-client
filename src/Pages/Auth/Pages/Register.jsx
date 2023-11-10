@@ -2,7 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik"
 import * as Yup from "yup"
 import axios from "axios"
 import toast from "react-hot-toast"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 // import { useNavigate } from "react-router-dom"
 
 function Register() {
@@ -39,9 +39,12 @@ function Register() {
 			),
 		secret: Yup.string().required("Secret word is required!"),
 		email: Yup.string()
-			.email("must be a valid email")
+			.email("Enter a valid email")
 			.required("Email is required during registration"),
-		password: Yup.string().min(4).max(20).required("Password is required!"),
+		password: Yup.string()
+			.min(4, "Password must be atleast four characters.")
+			.max(20, "Password cannot be longer than 20 characters")
+			.required("Password is required!"),
 		address: Yup.string().required("Address is required during registration"),
 	})
 
@@ -94,7 +97,11 @@ function Register() {
 
 											<label>Username: </label> */}
 											<Form>
-												<ErrorMessage name="username" component="span" />
+												<ErrorMessage
+													name="username"
+													component="span"
+													className="text-red-600 text-sm"
+												/>
 												<Field
 													autoComplete="off"
 													// id="inputCreatePost"
@@ -103,7 +110,11 @@ function Register() {
 													placeholder="Username"
 												/>
 
-												<ErrorMessage name="fullname" component="span" />
+												<ErrorMessage
+													name="fullname"
+													component="span"
+													className="text-red-600 text-sm"
+												/>
 												<Field
 													autoComplete="off"
 													// id="inputCreatePost"
@@ -112,7 +123,11 @@ function Register() {
 													placeholder="Full name"
 												/>
 
-												<ErrorMessage name="email" component="span" />
+												<ErrorMessage
+													name="email"
+													component="span"
+													className="text-red-600 text-sm"
+												/>
 												<Field
 													autoComplete="off"
 													// id="inputCreatePost"
@@ -121,7 +136,11 @@ function Register() {
 													placeholder="Email"
 												/>
 
-												<ErrorMessage name="phone" component="span" />
+												<ErrorMessage
+													name="phone"
+													component="span"
+													className="text-red-600 text-sm"
+												/>
 												<Field
 													autoComplete="off"
 													// id="inputCreatePost3"
@@ -130,7 +149,11 @@ function Register() {
 													placeholder="Enter your phone number"
 												/>
 
-												<ErrorMessage name="address" component="span" />
+												<ErrorMessage
+													name="address"
+													component="span"
+													className="text-red-600 text-sm"
+												/>
 												<Field
 													autoComplete="off"
 													// id="inputCreatePost4"
@@ -139,7 +162,11 @@ function Register() {
 													placeholder="Enter your home address"
 												/>
 
-												<ErrorMessage name="password" component="span" />
+												<ErrorMessage
+													name="password"
+													component="span"
+													className="text-red-600 text-sm"
+												/>
 												<Field
 													autoComplete="off"
 													className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
@@ -148,7 +175,11 @@ function Register() {
 													name="password"
 												/>
 
-												<ErrorMessage name="secret" component="span" />
+												<ErrorMessage
+													name="secret"
+													component="span"
+													className="text-red-600 text-sm"
+												/>
 												<Field
 													autoComplete="off"
 													id="inputCreatePost5"
@@ -192,9 +223,12 @@ function Register() {
 													Privacy Policy
 												</a>
 											</p> */}
-											<p className="mt-6 text-xs text-gray-600 text-center">
-												Robotron
-											</p>
+											<Link
+												to={"/Login"}
+												className="mt-6 text-xs text-gray-700 text-center font-semibold"
+											>
+												Login here
+											</Link>
 										</div>
 									</div>
 								</Formik>
