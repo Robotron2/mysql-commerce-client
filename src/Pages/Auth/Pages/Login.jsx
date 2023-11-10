@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 import useAuth from "../../../Components/CustomHooks/UseAuth"
 import { useState } from "react"
 import Spinner from "../../../Components/Utils/Spinner"
+import Waves from "../../../Components/Layouts/Waves"
 // import { useNavigate } from "react-router-dom"
 
 function Login() {
@@ -62,7 +63,9 @@ function Login() {
 			{!isLoading && (
 				<div>
 					<>
-						<div>
+						{/* Waves */}
+
+						<Waves>
 							<div className="m-0 sm:m-20 bg-white shadow sm:rounded-lg flex justify-center flex-1">
 								<div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
 									<div>
@@ -173,7 +176,7 @@ function Login() {
 									/>
 								</div>
 							</div>
-						</div>
+						</Waves>
 					</>
 				</div>
 			)}

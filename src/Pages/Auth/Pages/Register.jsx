@@ -5,6 +5,7 @@ import toast from "react-hot-toast"
 import { Link, useNavigate } from "react-router-dom"
 import Spinner from "../../../Components/Utils/Spinner"
 import { useState } from "react"
+import Waves from "../../../Components/Layouts/Waves"
 // import { useNavigate } from "react-router-dom"
 
 function Register() {
@@ -77,7 +78,7 @@ function Register() {
 			{!isLoading && (
 				<div>
 					<>
-						<div>
+						<Waves>
 							<div className="m-0 sm:m-20 bg-white shadow sm:rounded-lg flex justify-center flex-1">
 								<div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
 									<div>
@@ -252,7 +253,7 @@ function Register() {
 									/>
 								</div>
 							</div>
-						</div>
+						</Waves>
 					</>
 				</div>
 			)}
