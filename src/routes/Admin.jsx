@@ -5,8 +5,9 @@ import { Outlet } from "react-router-dom"
 import axios from "axios"
 
 import useAuth from "../Components/CustomHooks/UseAuth"
-import Spinner from "./../Components/Utils/Spinner"
+
 import Login from "../Pages/Auth/Pages/Login"
+import Spinner from "../Components/Utils/Spinner"
 
 const Admin = () => {
 	const [ok, setOk] = useState("")
@@ -18,19 +19,22 @@ const Admin = () => {
 		setSpinner(true)
 		const apiEndpoint = `${import.meta.env.VITE_REACT_APP_API}`
 		try {
-			const authResponse = await axios.get(`${apiEndpoint}/auth/user/admin-auth`, {
-				headers: {
-					accessToken: `${localAuth?.token}`
+			const authResponse = await axios.get(
+				`${apiEndpoint}/auth/user/admin-auth`,
+				{
+					headers: {
+						accessToken: `${localAuth?.token}`,
+					},
 				}
-			})
+			)
 			if (authResponse.data.ok) {
 				setOk(true)
-				setSpinner(false)
+				// setSpinner(false)
 			}
 			// console.log(authResponse)
 		} catch (error) {
 			console.log(error)
-			setOk(false)
+			// setOk(false)
 		}
 		setSpinner(false)
 	}
@@ -42,7 +46,9 @@ const Admin = () => {
 	return (
 		<>
 			{spinner && <Spinner />}
-			{ok ? <Outlet /> : <Login />}
+			{/* {(ok && !spinner) && <Outlet /> : <Login />} */}
+			{ok && !spinner && <Outlet />}
+			{!ok && !spinner && <Login />}
 		</>
 	)
 }
