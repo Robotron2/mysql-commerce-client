@@ -54,11 +54,11 @@ function Home() {
 	return (
 		<>
 			<Header />
-			<div className="md:px-14 lg:px-44 bg-gray-900">
+			<div className="md:px-14 lg:px-20 bg-gray-900">
 				<CategoryLinks />
 			</div>
-			<div className="showCase grid grid-cols-4 grid-flow-row gap-4 md:px-14 lg:px-44 mt-6 cursor-pointer">
-				<div className="large sm:col-span-4 lg:col-span-3 rounded shadow-xl">
+			<div className="showCase grid grid-cols-4 grid-flow-row gap-4 px-6 md:px-14 lg:px-20 mt-6 cursor-pointer">
+				<div className="large col-span-4 lg:col-span-3 rounded shadow-xl">
 					<Swiper
 						modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
 						spaceBetween={30}
@@ -93,7 +93,7 @@ function Home() {
 						})}
 					</Swiper>
 				</div>
-				<div className="show-grid sm:col-span-4 lg:col-span-1 grid grid-cols-4 gap-4 shadow-xl">
+				<div className="show-grid col-span-4 lg:col-span-1 grid grid-cols-4 gap-4 shadow-xl">
 					<div className=" col-span-2 rounded">
 						<Link>
 							<img
@@ -132,11 +132,11 @@ function Home() {
 					</div>
 				</div>
 			</div>
-			<div className="top-category bg-inherit md:px-14 lg:px-44 mt-6">
+			<div className="top-category bg-inherit md:px-14 lg:px-20 mt-6">
 				<div className=" bg-gray-900/90 rounded-tr-lg rounded-tl-lg flex justify-between p-3 text-white font-bold shadow-xl">
 					<h4 className="text-2xl">Products</h4>
 					<Link to={"/products"}>
-						<h6 className="font-semibold cursor-pointer">See all</h6>
+						<h6 className="font-semibold cursor-pointer">See more</h6>
 					</Link>
 				</div>
 				{/* <div className="deal-grid grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-2 pt-2">
@@ -163,7 +163,7 @@ function Home() {
 				<ProductList products={products} />
 			</div>
 
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	)
 }
