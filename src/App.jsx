@@ -8,6 +8,7 @@ import Login from "./Pages/Auth/Pages/Login"
 import Admin from "./routes/Admin"
 import UserManagement from "./Pages/Admin/pages/UserManagement"
 import ProductCatalog from "./Pages/Products/pages/ProductCatalog"
+import ViewProduct from "./Pages/Products/pages/ViewProduct"
 
 function App() {
 	return (
@@ -20,7 +21,7 @@ function App() {
 
 					{/* Product Browsing */}
 					<Route path="/products" element={<ProductCatalog />} />
-					<Route path="/products/:id" element={<ProductCatalog />} />
+					<Route path="/products/:id" element={<ViewProduct />} />
 
 					<Route path="/admin" element={<Admin />}>
 						{/* Product Management */}
