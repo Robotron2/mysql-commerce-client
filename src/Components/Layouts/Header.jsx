@@ -91,38 +91,6 @@ const Header = () => {
 								<Link>
 									<li className="text-xl flex my-2">All categories</li>
 								</Link>
-
-								{isLoggedIn ? (
-									<div className="login flex justify-between items-center w-56 mt-6">
-										<Link
-											className="mx-1 bg-slate-500 text-white p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-gray-700  transition duration-300 ease-in-out"
-											to={"/admin/crud-product"}
-										>
-											{user.username}
-										</Link>
-										<button
-											className="mx-1 bg-slate-500 text-white p-2 rounded-full w-full text-sm text-center  font-semibold hover:bg-gray-700  transition duration-300 ease-in-out"
-											onClick={handleLogout}
-										>
-											Logout
-										</button>
-									</div>
-								) : (
-									<div className="login  md:flex justify-between items-center w-56  mt-6">
-										<Link
-											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
-											to="/login"
-										>
-											Login
-										</Link>
-										<Link
-											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
-											to="/register"
-										>
-											Sign Up
-										</Link>
-									</div>
-								)}
 							</ul>
 
 							{view == "create" ||

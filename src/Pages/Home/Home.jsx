@@ -57,7 +57,7 @@ function Home() {
 			<div className="md:px-14 lg:px-20 bg-gray-900">
 				<CategoryLinks />
 			</div>
-			<div className="showCase grid grid-cols-4 grid-flow-row gap-4 px-6 md:px-14 lg:px-20 mt-6 cursor-pointer">
+			<div className="showCase grid grid-cols-4 grid-flow-row gap-4 px-6 sm:px-8 md:px-14 lg:px-20 mt-6 cursor-pointer">
 				<div className="large col-span-4 lg:col-span-3 rounded shadow-xl">
 					<Swiper
 						modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
@@ -132,9 +132,39 @@ function Home() {
 					</div>
 				</div>
 			</div>
-			<div className="top-category bg-inherit md:px-14 lg:px-20 mt-6">
+			<div className="top-category bg-inherit px-6 sm:px-8 md:px-14 lg:px-20 mt-6">
 				<div className=" bg-gray-900/90 rounded-tr-lg rounded-tl-lg flex justify-between p-3 text-white font-bold shadow-xl">
-					<h4 className="text-2xl">Products</h4>
+					<h4 className="text-2xl">Men</h4>
+					<Link to={"/products"}>
+						<h6 className="font-semibold cursor-pointer">See more</h6>
+					</Link>
+				</div>
+				{/* <div className="deal-grid grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-2 pt-2">
+					{myArray.map((_, i) => {
+						return (
+							<Link key={i + 1}>
+								<div className="child  bg-gray-200 shadow-lg rounded transform hover:scale-95 transition ease-in-out duration-300">
+									<div className="grid lg:grid-cols-3 gap-3">
+										<img
+											src={Image}
+											alt="deals"
+											className="object-cover rounded h-32 w-full"
+										/>
+										<div className="justify-self-center place-self-center mt-0 mb-1">
+											<h4 className="font-bold text-lg">Product Title</h4>
+											<p className="font-bold">$1000</p>
+										</div>
+									</div>
+								</div>
+							</Link>
+						)
+					})}
+				</div> */}
+				<ProductList products={products} />
+			</div>
+			<div className="top-category bg-inherit px-6 sm:px-8 md:px-14 lg:px-20 mt-6">
+				<div className=" bg-gray-900/90 rounded-tr-lg rounded-tl-lg flex justify-between p-3 text-white font-bold shadow-xl">
+					<h4 className="text-2xl">Women</h4>
 					<Link to={"/products"}>
 						<h6 className="font-semibold cursor-pointer">See more</h6>
 					</Link>
