@@ -9,6 +9,7 @@ import Admin from "./routes/Admin"
 import UserManagement from "./Pages/Admin/pages/UserManagement"
 import ProductCatalog from "./Pages/Products/pages/ProductCatalog"
 import ViewProduct from "./Pages/Products/pages/ViewProduct"
+import MyCart from "./Pages/User/pages/myCart"
 
 function App() {
 	return (
@@ -22,6 +23,7 @@ function App() {
 					{/* Product Browsing */}
 					<Route path="/products" element={<ProductCatalog />} />
 					<Route path="/products/:id" element={<ViewProduct />} />
+					<Route path="/cart" element={<MyCart />} />
 
 					<Route path="/admin" element={<Admin />}>
 						{/* Product Management */}

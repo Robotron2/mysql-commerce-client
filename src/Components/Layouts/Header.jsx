@@ -6,14 +6,17 @@ import { useEffect, useState } from "react"
 import useAuth from "../CustomHooks/UseAuth"
 import toast from "react-hot-toast"
 import UseCrud from "../../Pages/Admin/hooks/UseCrud"
+import UseCart from "../../Pages/Products/hooks/UseCart"
 
 const Header = () => {
 	const [auth, setAuth] = useAuth()
 	const { view, setView } = UseCrud()
+
 	const [nav, setNav] = useState(false)
 	// eslint-disable-next-line no-unused-vars
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const [user, setUser] = useState(null)
+	const { cartLength } = UseCart()
 
 	const navigate = useNavigate()
 
@@ -244,7 +247,10 @@ const Header = () => {
 						</div>
 					)}
 
-					<div className="cart col-start-11 col-span-2 md:row-start-3 row-start-2 flex md:justify-between cursor-pointer items-center ">
+					<Link
+						to={"/cart"}
+						className="cart col-start-11 col-span-2 md:row-start-3 row-start-2 flex md:justify-between cursor-pointer items-center "
+					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
@@ -260,8 +266,8 @@ const Header = () => {
 							/>
 						</svg>
 						<p className="font-semibold text-gray-200 mr-1">Cart</p>
-						<span className="font-bold">{0}</span>
-					</div>
+						<span className="font-bold">{cartLength}</span>
+					</Link>
 				</div>
 			</div>
 		</>

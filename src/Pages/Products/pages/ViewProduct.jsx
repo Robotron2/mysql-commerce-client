@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import toast from "react-hot-toast"
 import ProductList from "../components/ProductList"
+import AddToCartButton from "../components/AddToCartButton"
 // import image from "../../../../src/assets/lazy.png"
 
 function ViewProduct() {
@@ -28,6 +29,7 @@ function ViewProduct() {
 			// console.log(response)
 			setIsAvailable(true)
 			setProduct(response.data.product)
+
 			setImagePath(response.data.product.Image.filePath)
 			setRelatedProducts(response.data.relatedProducts)
 		} else if (!response.data.success) {
@@ -98,9 +100,10 @@ function ViewProduct() {
 									</div>
 								</div>
 								<div className="my-4 w-28 mx-auto md:w-full">
-									<button className=" w-full bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300">
-										Add to cart
-									</button>
+									<AddToCartButton
+										productId={product.id}
+										quantity={productQuantity}
+									/>
 								</div>
 							</div>
 						</div>
