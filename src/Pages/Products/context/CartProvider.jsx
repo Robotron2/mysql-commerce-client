@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react"
 import CartContext from "./CartContext"
 import axios from "axios"
+import useAuth from "../../../Components/CustomHooks/UseAuth"
 
 // eslint-disable-next-line react/prop-types
 const CartProvider = ({ children }) => {
@@ -9,6 +10,8 @@ const CartProvider = ({ children }) => {
 	const [totalValue, setTotalValue] = useState(0)
 	const [cartLength, setCartLength] = useState(0)
 	const [fetchCart, setFetchCart] = useState(false)
+	const [auth] = useAuth()
+	// console.log(auth)
 
 	const updateCart = (newCart) => {
 		setCart(newCart)
@@ -51,7 +54,7 @@ const CartProvider = ({ children }) => {
 	useEffect(() => {
 		fetchCartData()
 		fetchCartItemsTotal()
-	}, [fetchCart])
+	}, [fetchCart, auth])
 
 	return (
 		<CartContext.Provider
@@ -59,9 +62,10 @@ const CartProvider = ({ children }) => {
 				cart,
 				totalValue,
 				cartLength,
-				updateCart,
-				updateTotalValue,
 				fetchCart,
+				updateCart,
+				setCartLength,
+				updateTotalValue,
 				setFetchCart,
 			}}
 		>

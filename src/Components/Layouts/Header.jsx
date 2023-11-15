@@ -16,7 +16,7 @@ const Header = () => {
 	// eslint-disable-next-line no-unused-vars
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const [user, setUser] = useState(null)
-	const { cartLength } = UseCart()
+	const { cartLength, setCartLength } = UseCart()
 
 	const navigate = useNavigate()
 
@@ -25,6 +25,7 @@ const Header = () => {
 		setIsLoggedIn(false)
 		toast.success("Logged out successfully!")
 		setView("")
+		setCartLength(0)
 		navigate("/")
 	}
 

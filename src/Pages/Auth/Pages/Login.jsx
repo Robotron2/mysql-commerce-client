@@ -43,7 +43,7 @@ function Login() {
 				toast.error(response.data.error)
 			} else {
 				const data = response.data
-				console.log(response)
+				// console.log(response)
 				setAuth({ data })
 				localStorage.setItem("accessToken", JSON.stringify(data))
 				toast.success("Logged in successfully")
