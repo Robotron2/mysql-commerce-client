@@ -1,5 +1,10 @@
 import "./App.css"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	useLocation,
+} from "react-router-dom"
 import Home from "./Pages/Home/Home"
 import CreateProduct from "./Pages/Admin/pages/CrudProduct"
 import AllProducts from "./Pages/Admin/pages/AllProducts"
@@ -11,10 +16,23 @@ import ProductCatalog from "./Pages/Products/pages/ProductCatalog"
 import ViewProduct from "./Pages/Products/pages/ViewProduct"
 import MyCart from "./Pages/User/pages/myCart"
 
+import React from "react"
+
+const ScrollToTop = () => {
+	const { pathname } = useLocation()
+
+	React.useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [pathname])
+
+	return null
+}
+
 function App() {
 	return (
 		<>
 			<Router>
+				<ScrollToTop />
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/register" element={<Register />} />

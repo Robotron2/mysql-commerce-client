@@ -6,7 +6,8 @@ import axios from "axios"
 import toast from "react-hot-toast"
 
 const CartComponent = () => {
-	const { fetchCart, setFetchCart, totalValue, cartItems } = UseCart()
+	const { cartLength, fetchCart, setFetchCart, totalValue, cartItems } =
+		UseCart()
 	const baseUrl = `${import.meta.env.VITE_REACT_APP_API}`
 	const handleRemoveItem = async (itemId) => {
 		const localAuth = JSON.parse(localStorage.getItem("accessToken"))
@@ -66,11 +67,19 @@ const CartComponent = () => {
 				})}
 			</div>
 			<div className=" px-6 sm:px-8 md:px-14 lg:px-20 mt-6 w-full mb-28">
-				<center>
-					<button className="bg-gray-500 hover:bg-gray-700 p-2 text-white rounded-md mx-auto my-0">
-						Proceed to checkout ${totalValue}
-					</button>
-				</center>
+				{cartLength > 0 ? (
+					<center>
+						<button className="bg-gray-500 hover:bg-gray-700 p-2 text-white rounded-md mx-auto my-0">
+							Proceed to checkout ${totalValue}
+						</button>
+					</center>
+				) : (
+					<center>
+						<h1 className="bg-gray-500 hover:bg-gray-700 p-2 text-white rounded-md mx-auto my-0">
+							Nothing to checkout here
+						</h1>
+					</center>
+				)}
 			</div>
 		</div>
 	)

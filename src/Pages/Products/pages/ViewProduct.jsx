@@ -18,18 +18,29 @@ function ViewProduct() {
 	const [imagePath, setImagePath] = useState("")
 	const [isAvailable, setIsAvailable] = useState()
 	const [productQuantity, setProductQuantity] = useState(1)
+	const [maxQuantity, setMaxQuantity] = useState()
+	const [disableButton, setDisableButton] = useState(false)
 
 	const getProductDetails = async () => {
 		// const response = await axios.get(`${baseUrl}/products/product/${id}`)
+		setProductQuantity(1)
 		const response = await axios.get(
 			`${baseUrl}/products/product/${id}?category=${true}`
 		)
 
 		if (response.data.success) {
-			// console.log(response)
+			// console.log(response.data)
+			// console.log(response.data.product.stockQuantity)
+
 			setIsAvailable(true)
 			setProduct(response.data.product)
-
+			setMaxQuantity(parseInt(response.data.product.stockQuantity))
+			if (maxQuantity == 0) {
+				setDisableButton(true)
+				console.log(maxQuantity)
+			} else {
+				setDisableButton(false)
+			}
 			setImagePath(response.data.product.Image.filePath)
 			setRelatedProducts(response.data.relatedProducts)
 		} else if (!response.data.success) {
@@ -67,7 +78,6 @@ function ViewProduct() {
 									<span className="font-bold text-lg lg:text-3xl">
 										${product.price}
 									</span>
-									.99
 								</div>
 								<div>
 									<span className="font-semibold lg:text-xl">Description:</span>
@@ -75,34 +85,50 @@ function ViewProduct() {
 								</div>
 								<div className="flex justify-between mt-2 ">
 									<span className="lg:text-xl"> Quantity:</span>
-									<div className="bg-gray-100 w-32 grid grid-cols-3 font-semibold">
-										<span
-											className="border-r-2 border-gray-300 col-span-1 text-center cursor-pointer selection:bg-transparent selection:text-gray-600"
-											onClick={() => {
-												if (productQuantity > 1) {
-													setProductQuantity((prev) => prev - 1)
-												}
-											}}
-										>
-											-
-										</span>
-										<span className="border-r-2 border-gray-300 col-span-1 text-center">
-											{productQuantity}
-										</span>
-										<span
-											className="border-r-2 border-gray-300 col-span-1 text-center cursor-pointer selection:bg-transparent selection:text-gray-600"
-											onClick={() => {
-												setProductQuantity((prev) => prev + 1)
-											}}
-										>
-											+
-										</span>
-									</div>
+									{maxQuantity > 0 ? (
+										<>
+											<div className="bg-gray-100 w-32 grid grid-cols-3 font-semibold">
+												<span
+													className="border-r-2 border-gray-300 col-span-1 text-center cursor-pointer selection:bg-transparent selection:text-gray-600"
+													onClick={() => {
+														if (productQuantity > 1) {
+															setProductQuantity((prev) => prev - 1)
+														} else {
+															toast("Minimum quantity is one")
+														}
+													}}
+												>
+													-
+												</span>
+												<span className="border-r-2 border-gray-300 col-span-1 text-center">
+													{productQuantity}
+												</span>
+												<span
+													className="border-r-2 border-gray-300 col-span-1 text-center cursor-pointer selection:bg-transparent selection:text-gray-600"
+													onClick={() => {
+														if (maxQuantity > productQuantity) {
+															setProductQuantity((prev) => prev + 1)
+														} else {
+															setProductQuantity((prev) => prev)
+															toast("Max quantity reached")
+														}
+													}}
+												>
+													+
+												</span>
+											</div>
+										</>
+									) : (
+										<div className="bg-gray-100 w-32 px-4 rounded capitalize">
+											Out of stock
+										</div>
+									)}
 								</div>
 								<div className="my-4 w-28 mx-auto md:w-full">
 									<AddToCartButton
 										productId={product.id}
 										quantity={productQuantity}
+										disableButton={disableButton}
 									/>
 								</div>
 							</div>

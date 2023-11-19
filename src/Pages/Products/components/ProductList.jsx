@@ -46,9 +46,7 @@ function ProductList({ products }) {
 										</p>
 										<p>
 											<span className="font-semibold">Price: </span>
-											<span className="font-bold ml-1">
-												${product.price}.<span className="text-xs">99</span>
-											</span>
+											<span className="font-bold ml-1">${product.price}</span>
 										</p>
 									</div>
 									{/* <div className="p-2 grid grid-cols-2 gap-2">
