@@ -38,9 +38,13 @@ const SearchResult = () => {
 		<>
 			<Header />
 			<div className="md:px-14 lg:px-44 mb-96">
-				<h1>Searched Results</h1>
+				{products.length > 0 && <h1>Searched Results</h1>}
 
-				<ProductList products={products} />
+				{products.length > 0 ? (
+					<ProductList products={products} />
+				) : (
+					<>No product matches your search.</>
+				)}
 				{/* <div className="p-8 mx-auto w-full mt-4 flex justify-center">
 					<button
 						className="bg-gray-600 text-white text-center rounded-md p-3 hover:bg-gray-800 transition ease-in-out duration-300"
