@@ -49,7 +49,7 @@ function AddToCartButton({ productId, quantity, disableButton }) {
 
 	return (
 		<div>
-			{disableButton ? (
+			{disableButton === false && (
 				<>
 					<button
 						onClick={handleAddToCart}
@@ -59,7 +59,8 @@ function AddToCartButton({ productId, quantity, disableButton }) {
 						{isAdding ? "Adding..." : "Add to Cart"}
 					</button>
 				</>
-			) : (
+			)}
+			{disableButton === true && (
 				<>
 					<button
 						disabled

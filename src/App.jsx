@@ -17,6 +17,7 @@ import ViewProduct from "./Pages/Products/pages/ViewProduct"
 import MyCart from "./Pages/User/pages/myCart"
 
 import React from "react"
+import SearchResult from "./Components/Layouts/components/SearchResult"
 
 const ScrollToTop = () => {
 	const { pathname } = useLocation()
@@ -41,6 +42,7 @@ function App() {
 					{/* Product Browsing */}
 					<Route path="/products" element={<ProductCatalog />} />
 					<Route path="/products/:id" element={<ViewProduct />} />
+					<Route path="/products/search" element={<SearchResult />} />
 					<Route path="/cart" element={<MyCart />} />
 
 					<Route path="/admin" element={<Admin />}>

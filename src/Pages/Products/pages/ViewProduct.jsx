@@ -24,6 +24,7 @@ function ViewProduct() {
 	const getProductDetails = async () => {
 		// const response = await axios.get(`${baseUrl}/products/product/${id}`)
 		setProductQuantity(1)
+		// setDisableButton(false)
 		const response = await axios.get(
 			`${baseUrl}/products/product/${id}?category=${true}`
 		)
@@ -34,15 +35,18 @@ function ViewProduct() {
 
 			setIsAvailable(true)
 			setProduct(response.data.product)
-			setMaxQuantity(parseInt(response.data.product.stockQuantity))
+			// setMaxQuantity(parseInt(response.data.product.stockQuantity))
+			// console.log(response.data.product)
+			setMaxQuantity(parseInt(response.data.product?.stockQuantity))
+			// console.log(maxQuantity)
 			if (maxQuantity == 0) {
 				setDisableButton(true)
-				console.log(maxQuantity)
 			} else {
 				setDisableButton(false)
 			}
-			setImagePath(response.data.product.Image.filePath)
-			setRelatedProducts(response.data.relatedProducts)
+
+			setImagePath(response.data.product?.Image.filePath)
+			setRelatedProducts(response.data?.relatedProducts)
 		} else if (!response.data.success) {
 			toast.error(response.data.error)
 			setIsAvailable(false)
@@ -53,7 +57,7 @@ function ViewProduct() {
 		getProductDetails()
 	}, [id])
 
-	// console.log(imagePath)
+	// console.log(maxQuantity)
 	return (
 		<>
 			<Header />
@@ -83,9 +87,10 @@ function ViewProduct() {
 									<span className="font-semibold lg:text-xl">Description:</span>
 									<p className="inline flex-wrap ml-1">{product.description}</p>
 								</div>
-								<div className="flex justify-between mt-2 ">
-									<span className="lg:text-xl"> Quantity:</span>
-									{maxQuantity > 0 ? (
+								{maxQuantity > 0 && (
+									<div className="flex justify-between mt-2 ">
+										<span className="lg:text-xl"> Quantity:</span>
+
 										<>
 											<div className="bg-gray-100 w-32 grid grid-cols-3 font-semibold">
 												<span
@@ -118,12 +123,9 @@ function ViewProduct() {
 												</span>
 											</div>
 										</>
-									) : (
-										<div className="bg-gray-100 w-32 px-4 rounded capitalize">
-											Out of stock
-										</div>
-									)}
-								</div>
+									</div>
+								)}
+
 								<div className="my-4 w-28 mx-auto md:w-full">
 									<AddToCartButton
 										productId={product.id}

@@ -7,6 +7,7 @@ import useAuth from "../CustomHooks/UseAuth"
 import toast from "react-hot-toast"
 import UseCrud from "../../Pages/Admin/hooks/UseCrud"
 import UseCart from "../../Pages/Products/hooks/UseCart"
+import Search from "./components/Search"
 
 const Header = () => {
 	const [auth, setAuth] = useAuth()
@@ -193,7 +194,7 @@ const Header = () => {
 						<h1 className="font-bold text-gray-100">RoboShopp</h1>
 					</Link>
 
-					<div className="search flex bg-gray-500 items-center w-full lg:w-96 p-1 md:p-2 rounded-full col-start-2 lg:col-start-3 col-end-10 row-start-3">
+					{/* <div className="search flex bg-gray-500 items-center w-full lg:w-96 p-1 md:p-2 rounded-full col-start-2 lg:col-start-3 col-end-10 row-start-3">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
@@ -213,7 +214,8 @@ const Header = () => {
 							placeholder="Search product name, category or type"
 							className="w-full bg-transparent focus:outline-none"
 						/>
-					</div>
+					</div> */}
+					<Search />
 
 					{/* Auth State */}
 					{isLoggedIn ? (

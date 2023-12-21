@@ -40,10 +40,13 @@ function ProductList({ products }) {
 											<span className="font-semibold"> Quantity: </span>
 											{product.stockQuantity}
 										</p>
-										<p>
-											<span className="font-semibold">Description: </span>
-											{product.description.substring(0, 15) + "..."}
-										</p>
+										{product?.description !== undefined && (
+											<p>
+												<span className="font-semibold">Description: </span>
+												{product.description.substring(0, 15) + "..."}
+											</p>
+										)}
+
 										<p>
 											<span className="font-semibold">Price: </span>
 											<span className="font-bold ml-1">${product.price}</span>
