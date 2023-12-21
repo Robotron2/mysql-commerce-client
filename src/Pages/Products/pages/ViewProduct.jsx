@@ -1,55 +1,48 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import Header from "../../../Components/Layouts/Header"
 import { useEffect, useState } from "react"
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import toast from "react-hot-toast"
 import ProductList from "../components/ProductList"
 import AddToCartButton from "../components/AddToCartButton"
-// import image from "../../../../src/assets/lazy.png"
 
 function ViewProduct() {
 	const baseUrl = `${import.meta.env.VITE_REACT_APP_API}`
 
 	const { id } = useParams()
 	const [product, setProduct] = useState({})
-	const [relatedProducts, setRelatedProducts] = useState({})
+	const [relatedProducts, setRelatedProducts] = useState([])
 	const [imagePath, setImagePath] = useState("")
 	const [isAvailable, setIsAvailable] = useState()
+	const [productFound, setProductFound] = useState()
 	const [productQuantity, setProductQuantity] = useState(1)
 	const [maxQuantity, setMaxQuantity] = useState()
-	const [disableButton, setDisableButton] = useState(false)
+	const navigate = useNavigate()
 
 	const getProductDetails = async () => {
-		// const response = await axios.get(`${baseUrl}/products/product/${id}`)
 		setProductQuantity(1)
-		// setDisableButton(false)
-		const response = await axios.get(
-			`${baseUrl}/products/product/${id}?category=${true}`
-		)
 
-		if (response.data.success) {
-			// console.log(response.data)
-			// console.log(response.data.product.stockQuantity)
-
-			setIsAvailable(true)
-			setProduct(response.data.product)
-			// setMaxQuantity(parseInt(response.data.product.stockQuantity))
-			// console.log(response.data.product)
-			setMaxQuantity(parseInt(response.data.product?.stockQuantity))
-			// console.log(maxQuantity)
-			if (maxQuantity == 0) {
-				setDisableButton(true)
-			} else {
-				setDisableButton(false)
+		try {
+			const response = await axios.get(
+				`${baseUrl}/products/product/${id}?category=${true}`
+			)
+			if (response.data.success) {
+				setProductFound(true)
+				setProduct(response.data.product)
+				setMaxQuantity(parseInt(response.data.product?.stockQuantity))
+				setIsAvailable(response.data?.isAvailable)
+				setImagePath(response.data.product?.Image.filePath)
+				setRelatedProducts(response.data?.relatedProducts)
 			}
-
-			setImagePath(response.data.product?.Image.filePath)
-			setRelatedProducts(response.data?.relatedProducts)
-		} else if (!response.data.success) {
-			toast.error(response.data.error)
-			setIsAvailable(false)
+		} catch (error) {
+			if (error.response.data) {
+				setProductFound(false)
+			} else {
+				toast.error("Internal server error! Kindly contact us")
+				navigate("/products")
+			}
 		}
 	}
 
@@ -57,12 +50,11 @@ function ViewProduct() {
 		getProductDetails()
 	}, [id])
 
-	// console.log(maxQuantity)
 	return (
 		<>
 			<Header />
 
-			{isAvailable ? (
+			{productFound ? (
 				<>
 					<div className="px-6 sm:px-8 md:px-14 lg:px-20 mt-6  py-4 rounded-md m-2">
 						<div className="lg:grid grid-cols-3 gap-3">
@@ -127,11 +119,20 @@ function ViewProduct() {
 								)}
 
 								<div className="my-4 w-28 mx-auto md:w-full">
-									<AddToCartButton
-										productId={product.id}
-										quantity={productQuantity}
-										disableButton={disableButton}
-									/>
+									{isAvailable == true && (
+										<AddToCartButton
+											productId={product.id}
+											quantity={productQuantity}
+										/>
+									)}
+									{isAvailable == false && (
+										<button
+											disabled
+											className=" w-full bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300 disabled:cursor-not-allowed"
+										>
+											Out Of Stock
+										</button>
+									)}
 								</div>
 							</div>
 						</div>
@@ -146,7 +147,35 @@ function ViewProduct() {
 					</div>
 				</>
 			) : (
-				<>Product not available</>
+				<div>
+					<>
+						<div className="m-0 sm:m-20 bg-white shadow sm:rounded-lg flex justify-center flex-1 h-96">
+							<div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
+								<div className="mt-12 flex flex-col items-center">
+									<h1 className="text-2xl xl:text-3xl font-bold text-gray-800">
+										Oops!!
+									</h1>
+									<h1 className="text-2xl xl:text-3xl font-bold text-gray-800">
+										Product not found.
+									</h1>
+									<button className=" w-52 bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300">
+										Go back
+									</button>
+								</div>
+							</div>
+							<div className="flex-1 bg-gray-100 text-center hidden lg:flex">
+								<div
+									className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
+									style={{
+										backgroundImage:
+											'url("../../../../src/assets/product404.jpg")',
+										backgroundRepeat: "no-repeat",
+									}}
+								/>
+							</div>
+						</div>
+					</>
+				</div>
 			)}
 		</>
 	)

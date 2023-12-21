@@ -5,7 +5,7 @@ import { useState } from "react"
 import toast from "react-hot-toast"
 import UseCart from "../hooks/UseCart"
 
-function AddToCartButton({ productId, quantity, disableButton }) {
+function AddToCartButton({ productId, quantity }) {
 	const [isAdding, setIsAdding] = useState(false)
 
 	const { setFetchCart, fetchCart } = UseCart()
@@ -49,27 +49,15 @@ function AddToCartButton({ productId, quantity, disableButton }) {
 
 	return (
 		<div>
-			{disableButton === false && (
-				<>
-					<button
-						onClick={handleAddToCart}
-						disabled={isAdding}
-						className=" w-full bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300 disabled:cursor-not-allowed"
-					>
-						{isAdding ? "Adding..." : "Add to Cart"}
-					</button>
-				</>
-			)}
-			{disableButton === true && (
-				<>
-					<button
-						disabled
-						className=" w-full bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300 disabled:cursor-not-allowed"
-					>
-						Out Of Stock
-					</button>
-				</>
-			)}
+			<>
+				<button
+					onClick={handleAddToCart}
+					disabled={isAdding}
+					className=" w-full bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300 disabled:cursor-not-allowed"
+				>
+					{isAdding ? "Adding..." : "Add to Cart"}
+				</button>
+			</>
 		</div>
 	)
 }
