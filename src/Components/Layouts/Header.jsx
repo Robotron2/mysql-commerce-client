@@ -39,23 +39,26 @@ const Header = () => {
 		}
 	}, [])
 
-	// console.log(auth)
-	// const [nav, setNav] = useState(true)
-	// "fixed top-0 left-[-100%] w-[300px] h-screen bg-white z-10 duration-500"
 	return (
 		<>
+			{/* Overlay */}
 			{nav && (
 				<div
-					className="overlay w-full h-screen bg-black/80 fixed top-0 left-0 z-10 transition ease-in-out duration-500"
+					className="overlay w-full h-screen bg-black/80 fixed top-0 left-0 z-40 transition ease-in-out duration-500"
 					onClick={() => setNav(!nav)}
 				></div>
 			)}
+
 			<div className="bg-gray-800 text-white p-4">
+				{/* Mobile navigations */}
 				{nav && (
-					<div className="fixed top-0 left-0 w-[300px] h-screen bg-gray-200 z-10 duration-700 transition ease-in-out">
+					<div
+						className="fixed top-0 left-0 w-[300px] h-screen bg-gray-800 z-40 duration-700 transition ease-in-out"
+						onClick={() => setNav(!nav)}
+					>
 						{/* close nav */}
 						<div
-							className="flex justify-between items-center p-1 text-gray-800"
+							className="flex justify-between items-center p-1 text-gray-200"
 							onClick={() => setNav(!nav)}
 						>
 							<h2 className="text-2xl p-4 ">
@@ -77,54 +80,26 @@ const Header = () => {
 							</svg>
 						</div>
 						<nav>
-							<ul className="flex flex-col p-4 text-gray-800 mt-10">
+							<ul className="flex flex-col p-4 text-gray-200 mt-10">
 								<Link>
-									<li className="text-xl flex my-2">All categories</li>
+									<li className="text-lg flex my-2">Dashboard</li>
 								</Link>
 								<Link>
-									<li className="text-xl flex my-2">All categories</li>
+									<li className="text-lg flex my-2">Product Management</li>
 								</Link>
 								<Link>
-									<li className="text-xl flex my-2">All categories</li>
+									<li className="text-lg flex my-2">Order Mangement</li>
 								</Link>
 								<Link>
-									<li className="text-xl flex my-2">All categories</li>
+									<li className="text-lg flex my-2">User Management</li>
 								</Link>
 								<Link>
-									<li className="text-xl flex my-2">All categories</li>
+									<li className="text-lg flex my-2">Reports and ANalytics</li>
 								</Link>
 								<Link>
-									<li className="text-xl flex my-2">All categories</li>
+									<li className="text-lg flex my-2">Settings</li>
 								</Link>
 							</ul>
-
-							{view == "create" ||
-							view == "read" ||
-							view == "update" ||
-							view == "delete" ? (
-								<ul>
-									<Link>
-										<li className="text-lg flex my-2">Dashboard</li>
-									</Link>
-									<Link>
-										<li className="text-lg flex my-2">Product Management</li>
-									</Link>
-									<Link>
-										<li className="text-lg flex my-2">Order Mangement</li>
-									</Link>
-									<Link>
-										<li className="text-lg flex my-2">User Management</li>
-									</Link>
-									<Link>
-										<li className="text-lg flex my-2">Reports and ANalytics</li>
-									</Link>
-									<Link>
-										<li className="text-lg flex my-2">Settings</li>
-									</Link>
-								</ul>
-							) : (
-								""
-							)}
 
 							<ul>
 								{isLoggedIn ? (
@@ -165,9 +140,9 @@ const Header = () => {
 
 				{/*Large screen*/}
 				<div className="grid grid-cols-12 gap-1 lg:flex lg:justify-between items-center md:px-10">
-					{/* Open nav on mobile */}
+					{/* Opens nav on mobile */}
 					<div
-						className="nav-menu lg:hidden text-white text-2xl  flex items-center col-span-1 col-start-1 col-end-1 row-start-3"
+						className="nav-menu lg:hidden text-white text-2xl  flex items-center col-span-1 col-start-1 col-end-1 row-start-1"
 						onClick={() => setNav(!nav)}
 					>
 						<svg
@@ -193,33 +168,13 @@ const Header = () => {
 						<img src={brand} alt="Brand" className="w-10 lg:w-full h-10" />
 						<h1 className="font-bold text-gray-100">RoboShopp</h1>
 					</Link>
-
-					{/* <div className="search flex bg-gray-500 items-center w-full lg:w-96 p-1 md:p-2 rounded-full col-start-2 lg:col-start-3 col-end-10 row-start-3">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							strokeWidth="1.5"
-							stroke="currentColor"
-							className="w-6 h-6"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-							/>
-						</svg>
-						<input
-							type="text"
-							placeholder="Search product name, category or type"
-							className="w-full bg-transparent focus:outline-none"
-						/>
-					</div> */}
-					<Search />
+					<div className="search hidden lg:flex bg-gray-500 items-center w-full lg:w-96 p-1 md:p-2 rounded-full col-start-2 lg:col-start-3 col-end-10 row-start-3">
+						<Search />
+					</div>
 
 					{/* Auth State */}
 					{isLoggedIn ? (
-						<div className="login md:flex justify-between items-center w-56 col-span-3 hidden md:col-start-7 row-start-1">
+						<div className=" login md:flex justify-between items-center w-56 col-span-3 hidden md:col-start-7 row-start-1">
 							<Link
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 								to={"/admin/crud-product"}
@@ -234,9 +189,10 @@ const Header = () => {
 							</button>
 						</div>
 					) : (
-						<div className="login  md:flex justify-between items-center w-56 col-span-3 col-start-7 row-start-1">
+						<div className=" login md:flex justify-between items-center w-56 col-span-3 hidden md:col-start-7 row-start-1">
 							<Link
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+								// className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold
 								to="/login"
 							>
 								Login
@@ -252,7 +208,7 @@ const Header = () => {
 
 					<Link
 						to={"/cart"}
-						className="cart col-start-11 col-span-2 md:row-start-3 row-start-2 flex md:justify-between cursor-pointer items-center "
+						className="cart col-start-11 col-span-2 md:row-start-1 row-start-1 flex md:justify-between cursor-pointer items-center "
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -271,6 +227,12 @@ const Header = () => {
 						<p className="font-semibold text-gray-200 mr-1">Cart</p>
 						<span className="font-bold">{cartLength}</span>
 					</Link>
+				</div>
+			</div>
+
+			<div className="w-60 md:w-72 mx-auto mt-2">
+				<div className="search flex lg:hidden bg-gray-600 items-center w-full text-white p-1 px-2 rounded-full">
+					<Search />
 				</div>
 			</div>
 		</>
