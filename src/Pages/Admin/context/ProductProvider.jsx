@@ -1,16 +1,19 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react"
+import { useState } from "react";
 
-import ProductContext from "./ProductContext"
+import ProductContext from "./ProductContext";
 
 const ProductProvider = ({ children }) => {
-	const [productId, setProductId] = useState("")
+  const [productId, setProductId] = useState("");
+  const [categoryId, setCategoryId] = useState("");
 
-	return (
-		<ProductContext.Provider value={{ productId, setProductId }}>
-			{children}
-		</ProductContext.Provider>
-	)
-}
+  return (
+    <ProductContext.Provider
+      value={{ productId, setProductId, categoryId, setCategoryId }}
+    >
+      {children}
+    </ProductContext.Provider>
+  );
+};
 
-export default ProductProvider
+export default ProductProvider;
