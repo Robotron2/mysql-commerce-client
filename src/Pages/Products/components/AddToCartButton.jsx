@@ -38,7 +38,6 @@ function AddToCartButton({ productId, quantity }) {
         setIsAdding(false);
       } else {
         // console.log(response.data);
-
         toast.error("You need to sign in first.");
         setIsAdding(false);
       }
