@@ -20,7 +20,7 @@ const Header = () => {
 	const [adminSession, setAdminSession] = useState(false)
 	const [userSession, setUserSession] = useState(false)
 	const [user, setUser] = useState(null)
-	const { cartLength, setCartLength } = UseCart()
+	const { cartLength, setCartLength, updateCartItems } = UseCart()
 
 	const navigate = useNavigate()
 
@@ -32,6 +32,7 @@ const Header = () => {
 		toast.success("Logged out successfully!")
 		setView("")
 		setCartLength(0)
+		updateCartItems([])
 		navigate("/")
 	}
 
@@ -99,13 +100,14 @@ const Header = () => {
 										<li className="text-lg flex my-2">User Management</li>
 									</Link>
 									<Link>
-										<li className="text-lg flex my-2">Reports and ANalytics</li>
+										<li className="text-lg flex my-2">Reports and Analytics</li>
 									</Link>
 									<Link>
 										<li className="text-lg flex my-2">Settings</li>
 									</Link>
 								</ul>
 							)}
+
 							{userSession && (
 								<ul className="flex flex-col p-4 text-gray-200 mt-10">
 									<Link>
@@ -113,6 +115,23 @@ const Header = () => {
 									</Link>
 									<Link>
 										<li className="text-lg flex my-2">My Cart</li>
+									</Link>
+								</ul>
+							)}
+
+							{isLoggedIn === false && (
+								<ul className="flex flex-col p-4 text-gray-200 mt-10">
+									<Link>
+										<li className="text-lg flex my-2">Home</li>
+									</Link>
+									<Link>
+										<li className="text-lg flex my-2">Contact Us</li>
+									</Link>
+									<Link>
+										<li className="text-lg flex my-2">Terms and Conditions</li>
+									</Link>
+									<Link>
+										<li className="text-lg flex my-2">FAQs</li>
 									</Link>
 								</ul>
 							)}
@@ -172,7 +191,8 @@ const Header = () => {
 					</div>
 
 					{/* Auth State */}
-					{isLoggedIn && userSession ? (
+
+					{isLoggedIn && userSession && (
 						<div className=" login md:flex justify-between items-center w-56 col-span-3 hidden md:col-start-7 row-start-1">
 							<Link className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" to={"/admin/crud-product"}>
 								{user.username}
@@ -181,7 +201,20 @@ const Header = () => {
 								Logout
 							</button>
 						</div>
-					) : (
+					)}
+
+					{isLoggedIn && adminSession && (
+						<div className=" login md:flex justify-between items-center w-56 col-span-3 hidden md:col-start-7 row-start-1">
+							<Link className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" to={"/admin/crud-product"}>
+								{user.username}
+							</Link>
+							<button className=" mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" onClick={handleLogout}>
+								Logout
+							</button>
+						</div>
+					)}
+
+					{isLoggedIn === false && (
 						<div className=" login md:flex justify-between items-center w-56 col-span-3 hidden md:col-start-7 row-start-1">
 							<Link
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"

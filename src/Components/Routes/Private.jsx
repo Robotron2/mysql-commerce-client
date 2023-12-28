@@ -13,7 +13,7 @@ const PrivateRoute = () => {
 	const [auth, setAuth] = useAuth()
 	const localAuth = JSON.parse(localStorage.getItem("auth"))
 
-	axios.defaults.withCredentials = true
+	// axios.defaults.withCredentials = true
 
 	const authCheck = async () => {
 		setSpinner(true)
@@ -21,8 +21,8 @@ const PrivateRoute = () => {
 		try {
 			const authResponse = await axios.get(`${apiEndpoint}/auth/`, {
 				headers: {
-					Authorization: `Token ${localAuth?.token}`
-				}
+					Authorization: `Token ${localAuth?.token}`,
+				},
 			})
 			if (authResponse.data.success) {
 				setOk(true)
