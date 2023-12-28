@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react"
 import { Outlet } from "react-router-dom"
 import axios from "axios"
-import useAuth from "../customHooks/auth/useAuth"
-import Spinner from "../Components/Utils/Spinner"
-import Login from "../Pages/Auth/Pages/Login"
 
-const Admin = () => {
+import useAuth from "../Components/CustomHooks/UseAuth"
+
+import Login from "../Pages/Auth/Pages/Login"
+import Spinner from "../Components/Utils/Spinner"
+
+const User = () => {
 	const [ok, setOk] = useState("")
 	const [spinner, setSpinner] = useState(null)
 	const [auth, setAuth] = useAuth()
@@ -19,17 +21,14 @@ const Admin = () => {
 		try {
 			const authResponse = await axios.get(`${apiEndpoint}/auth/user/user-auth`, {
 				headers: {
-					accessToken: `${localAuth?.token}`
-				}
+					accessToken: `${localAuth?.token}`,
+				},
 			})
 			if (authResponse.data.ok) {
 				setOk(true)
-				setSpinner(false)
 			}
-			// console.log(authResponse)
 		} catch (error) {
 			console.log(error)
-			setOk(false)
 		}
 		setSpinner(false)
 	}
@@ -41,9 +40,10 @@ const Admin = () => {
 	return (
 		<>
 			{spinner && <Spinner />}
-			{ok ? <Outlet /> : <Login />}
+			{ok && !spinner && <Outlet />}
+			{!ok && !spinner && <Login />}
 		</>
 	)
 }
 
-export default Admin
+export default User

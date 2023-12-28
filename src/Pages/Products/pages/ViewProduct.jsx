@@ -7,6 +7,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component"
 import toast from "react-hot-toast"
 import ProductList from "../components/ProductList"
 import AddToCartButton from "../components/AddToCartButton"
+import { motion } from "framer-motion"
 
 function ViewProduct() {
 	const baseUrl = `${import.meta.env.VITE_REACT_APP_API}`
@@ -25,9 +26,7 @@ function ViewProduct() {
 		setProductQuantity(1)
 
 		try {
-			const response = await axios.get(
-				`${baseUrl}/products/product/${id}?category=${true}`
-			)
+			const response = await axios.get(`${baseUrl}/products/product/${id}?category=${true}`)
 			if (response.data.success) {
 				setProductFound(true)
 				setProduct(response.data.product)
@@ -51,7 +50,7 @@ function ViewProduct() {
 	}, [id])
 
 	return (
-		<>
+		<motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
 			<Header />
 
 			{productFound ? (
@@ -59,21 +58,12 @@ function ViewProduct() {
 					<div className="px-6 sm:px-8 md:px-14 lg:px-20 mt-6  py-4 rounded-md m-2">
 						<div className="lg:grid grid-cols-3 gap-3">
 							<div className="lg:col-span-2 row-span-1">
-								<LazyLoadImage
-									alt="Product Image"
-									src={`${baseUrl}/${imagePath}`}
-									className=" object-cover rounded-md w-full h-full "
-									placeholderSrc="../../../../src/assets/lazy.png"
-								/>
+								<LazyLoadImage alt="Product Image" src={`${baseUrl}/${imagePath}`} className=" object-cover rounded-md w-full h-full " placeholderSrc="../../../../src/assets/lazy.png" />
 							</div>
 							<div className="mt-4 bg-gray-300 p-1 px-2 rounded-md shadow-lg lg:items-center row-span-1 lg:h-fit">
-								<div className="font-semibold lg:text-2xl lg:mt-10">
-									{product.productName}
-								</div>
+								<div className="font-semibold lg:text-2xl lg:mt-10">{product.productName}</div>
 								<div className="lg:my-3">
-									<span className="font-bold text-lg lg:text-3xl">
-										${product.price}
-									</span>
+									<span className="font-bold text-lg lg:text-3xl">${product.price}</span>
 								</div>
 								<div>
 									<span className="font-semibold lg:text-xl">Description:</span>
@@ -97,9 +87,7 @@ function ViewProduct() {
 												>
 													-
 												</span>
-												<span className="border-r-2 border-gray-300 col-span-1 text-center">
-													{productQuantity}
-												</span>
+												<span className="border-r-2 border-gray-300 col-span-1 text-center">{productQuantity}</span>
 												<span
 													className="border-r-2 border-gray-300 col-span-1 text-center cursor-pointer selection:bg-transparent selection:text-gray-600"
 													onClick={() => {
@@ -119,17 +107,9 @@ function ViewProduct() {
 								)}
 
 								<div className="my-4 w-28 mx-auto md:w-full">
-									{isAvailable == true && (
-										<AddToCartButton
-											productId={product.id}
-											quantity={productQuantity}
-										/>
-									)}
+									{isAvailable == true && <AddToCartButton productId={product.id} quantity={productQuantity} />}
 									{isAvailable == false && (
-										<button
-											disabled
-											className=" w-full bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300 disabled:cursor-not-allowed"
-										>
+										<button disabled className=" w-full bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300 disabled:cursor-not-allowed">
 											Out Of Stock
 										</button>
 									)}
@@ -152,23 +132,16 @@ function ViewProduct() {
 						<div className="m-0 sm:m-20 bg-white shadow sm:rounded-lg flex justify-center flex-1 h-96">
 							<div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
 								<div className="mt-12 flex flex-col items-center">
-									<h1 className="text-2xl xl:text-3xl font-bold text-gray-800">
-										Oops!!
-									</h1>
-									<h1 className="text-2xl xl:text-3xl font-bold text-gray-800">
-										Product not found.
-									</h1>
-									<button className=" w-52 bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300">
-										Go back
-									</button>
+									<h1 className="text-2xl xl:text-3xl font-bold text-gray-800">Oops!!</h1>
+									<h1 className="text-2xl xl:text-3xl font-bold text-gray-800">Product not found.</h1>
+									<button className=" w-52 bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300">Go back</button>
 								</div>
 							</div>
 							<div className="flex-1 bg-gray-100 text-center hidden lg:flex">
 								<div
 									className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
 									style={{
-										backgroundImage:
-											'url("../../../../src/assets/product404.jpg")',
+										backgroundImage: 'url("../../../../src/assets/product404.jpg")',
 										backgroundRepeat: "no-repeat",
 									}}
 								/>
@@ -177,7 +150,7 @@ function ViewProduct() {
 					</>
 				</div>
 			)}
-		</>
+		</motion.div>
 	)
 }
 

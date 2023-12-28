@@ -7,7 +7,7 @@ import useAuth from "../../../Components/CustomHooks/UseAuth"
 import { useState } from "react"
 import Spinner from "../../../Components/Utils/Spinner"
 import Waves from "../../../Components/Layouts/Waves"
-// import { useNavigate } from "react-router-dom"
+import { motion } from "framer-motion"
 
 function Login() {
 	const navigate = useNavigate()
@@ -21,23 +21,15 @@ function Login() {
 	}
 
 	const validationSchema = Yup.object().shape({
-		email: Yup.string()
-			.email("Enter a valid email!")
-			.required("Email is required during registration."),
-		password: Yup.string()
-			.min(4, "Password must be atleast four characters")
-			.max(20, "Password cannot be longer than 20 characters.")
-			.required("Password is required!"),
+		email: Yup.string().email("Enter a valid email!").required("Email is required during registration."),
+		password: Yup.string().min(4, "Password must be atleast four characters").max(20, "Password cannot be longer than 20 characters.").required("Password is required!"),
 	})
 
 	const handleSubmit = async (data) => {
 		setIsLoading(true)
 
 		try {
-			const response = await axios.post(
-				`${import.meta.env.VITE_REACT_APP_API}/auth/user/login`,
-				data
-			)
+			const response = await axios.post(`${import.meta.env.VITE_REACT_APP_API}/auth/user/login`, data)
 			if (response.success === false) {
 				// console.log(response.data.error)
 				toast.error(response.data.error)
@@ -58,7 +50,7 @@ function Login() {
 	}
 
 	return (
-		<>
+		<motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
 			{isLoading && <Spinner />}
 			{!isLoading && (
 				<div>
@@ -75,14 +67,8 @@ function Login() {
 							/> */}
 									</div>
 									<div className="mt-12 flex flex-col items-center">
-										<h1 className="text-2xl xl:text-3xl font-bold text-gray-800">
-											Roboshoppp
-										</h1>
-										<Formik
-											initialValues={initialValues}
-											onSubmit={handleSubmit}
-											validationSchema={validationSchema}
-										>
+										<h1 className="text-2xl xl:text-3xl font-bold text-gray-800">Roboshoppp</h1>
+										<Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validationSchema}>
 											<div className="w-full flex-1 mt-8">
 												<div className="mx-auto max-w-xs">
 													{/* <input
@@ -93,11 +79,7 @@ function Login() {
 
 											<label>Username: </label> */}
 													<Form>
-														<ErrorMessage
-															name="email"
-															component="span"
-															className="text-red-600 text-sm"
-														/>
+														<ErrorMessage name="email" component="span" className="text-red-600 text-sm" />
 														<Field
 															autoComplete="off"
 															// id="inputCreatePost"
@@ -106,11 +88,7 @@ function Login() {
 															placeholder="Email"
 														/>
 
-														<ErrorMessage
-															name="password"
-															component="span"
-															className="text-red-600 text-sm"
-														/>
+														<ErrorMessage name="password" component="span" className="text-red-600 text-sm" />
 														<Field
 															autoComplete="off"
 															className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
@@ -123,14 +101,7 @@ function Login() {
 															className="mt-5 tracking-wide font-semibold bg-gray-500 text-gray-100 w-full py-4 rounded-lg hover:bg-gray-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
 															type="submit"
 														>
-															<svg
-																className="w-6 h-6 -ml-2"
-																fill="none"
-																stroke="currentColor"
-																strokeWidth={2}
-																strokeLinecap="round"
-																strokeLinejoin="round"
-															>
+															<svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
 																<path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
 																<circle cx="8.5" cy={7} r={4} />
 																<path d="M20 8v6M23 11h-6" />
@@ -155,10 +126,7 @@ function Login() {
 													Privacy Policy
 												</a>
 											</p> */}
-													<Link
-														to={"/register"}
-														className="mt-6 text-xs  text-gray-700 text-center font-semibold"
-													>
+													<Link to={"/register"} className="mt-6 text-xs  text-gray-700 text-center font-semibold">
 														Register here
 													</Link>
 												</div>
@@ -170,8 +138,7 @@ function Login() {
 									<div
 										className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
 										style={{
-											backgroundImage:
-												'url("https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg")',
+											backgroundImage: 'url("https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg")',
 										}}
 									/>
 								</div>
@@ -180,7 +147,7 @@ function Login() {
 					</>
 				</div>
 			)}
-		</>
+		</motion.div>
 	)
 }
 

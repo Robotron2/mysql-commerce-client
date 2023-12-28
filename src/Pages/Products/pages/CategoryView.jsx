@@ -7,6 +7,7 @@ import CategoryLinks from "../../Home/components/CategoryLinks"
 import ProductList from "../components/ProductList"
 import UseProduct from "../../Admin/hooks/UseProduct"
 import toast from "react-hot-toast"
+import { motion } from "framer-motion"
 
 function CategoryView() {
 	const [availableProducts, setAvailableProducts] = useState([])
@@ -34,7 +35,7 @@ function CategoryView() {
 		getProductsByCategory()
 	}, [categoryId])
 	return (
-		<>
+		<motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
 			<Header />
 			<div className="md:px-14 lg:px-20 bg-gray-900">
 				<CategoryLinks />
@@ -46,7 +47,7 @@ function CategoryView() {
 			) : (
 				<div className="top-category bg-inherit px-6 sm:px-8 md:px-14 lg:px-20 mt-6">No product available in this category</div>
 			)}
-		</>
+		</motion.div>
 	)
 }
 

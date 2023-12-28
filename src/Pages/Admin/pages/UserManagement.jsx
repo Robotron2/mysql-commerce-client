@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import AdminLinks from "../components/AdminLinks"
 import Header from "../../../Components/Layouts/Header"
 import toast from "react-hot-toast"
+import { motion } from "framer-motion"
 
 function UserManagement() {
 	const localAuth = JSON.parse(localStorage.getItem("accessToken"))
@@ -12,14 +13,11 @@ function UserManagement() {
 
 	const getAllUsers = async () => {
 		try {
-			const users = await axios.get(
-				`${import.meta.env.VITE_REACT_APP_API}/admin/manage-users?page=${page}`,
-				{
-					headers: {
-						accessToken: `${localAuth?.token}`,
-					},
-				}
-			)
+			const users = await axios.get(`${import.meta.env.VITE_REACT_APP_API}/admin/manage-users?page=${page}`, {
+				headers: {
+					accessToken: `${localAuth?.token}`,
+				},
+			})
 			if (users.data.user.length === 0) {
 				// toast.error("All products have been fetched!")
 				toast("All users have been fetched!")
@@ -40,7 +38,7 @@ function UserManagement() {
 		getAllUsers()
 	}, [])
 	return (
-		<>
+		<motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
 			<Header />
 			<div className="hidden md:block md:px-14 lg:px-44 bg-gray-900">
 				<AdminLinks />
@@ -81,28 +79,13 @@ function UserManagement() {
 									{users?.map((user, i) => {
 										return (
 											<>
-												<tr
-													className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
-													key={user.id}
-												>
-													<td className="whitespace-nowrap px-6 py-4 font-medium">
-														{i + 1}
-													</td>
-													<td className="whitespace-nowrap px-6 py-4">
-														{user.fullName}
-													</td>
-													<td className="whitespace-nowrap px-6 py-4">
-														{user.username}
-													</td>
-													<td className="whitespace-nowrap px-6 py-4">
-														{user.email}
-													</td>
-													<td className="whitespace-nowrap px-6 py-4">
-														{user.phone}
-													</td>
-													<td className="whitespace-nowrap px-6 py-4">
-														{user.address}
-													</td>
+												<tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600" key={user.id}>
+													<td className="whitespace-nowrap px-6 py-4 font-medium">{i + 1}</td>
+													<td className="whitespace-nowrap px-6 py-4">{user.fullName}</td>
+													<td className="whitespace-nowrap px-6 py-4">{user.username}</td>
+													<td className="whitespace-nowrap px-6 py-4">{user.email}</td>
+													<td className="whitespace-nowrap px-6 py-4">{user.phone}</td>
+													<td className="whitespace-nowrap px-6 py-4">{user.address}</td>
 													{/* <td className="whitespace-nowrap px-6 py-4">
 														<button>Edit</button>
 														<button>Delete</button>
@@ -127,7 +110,7 @@ function UserManagement() {
 					Click More
 				</button>
 			</div>
-		</>
+		</motion.div>
 	)
 }
 

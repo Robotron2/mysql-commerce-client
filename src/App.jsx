@@ -9,11 +9,13 @@ import Admin from "./routes/Admin"
 import UserManagement from "./Pages/Admin/pages/UserManagement"
 import ProductCatalog from "./Pages/Products/pages/ProductCatalog"
 import ViewProduct from "./Pages/Products/pages/ViewProduct"
-import MyCart from "./Pages/User/pages/myCart"
 
 import React from "react"
 import SearchResult from "./Components/Layouts/components/SearchResult"
 import CategoryView from "./Pages/Products/pages/CategoryView"
+import MyCart from "./Pages/User/pages/MyCart"
+import Profiles from "./Pages/User/pages/Profiles"
+import User from "./routes/UserRoute"
 
 const ScrollToTop = () => {
 	const { pathname } = useLocation()
@@ -51,8 +53,8 @@ function App() {
 						<Route path="user-management" element={<UserManagement />} />
 					</Route>
 
-					<Route path="/user" element={<Admin />}>
-						<Route path="get-products" element={<AllProducts />} />
+					<Route path="/user" element={<User />}>
+						<Route path="profile" element={<Profiles />} />
 					</Route>
 				</Routes>
 			</Router>

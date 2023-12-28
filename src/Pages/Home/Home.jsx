@@ -2,9 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Link, useNavigate } from "react-router-dom"
 import Header from "../../Components/Layouts/Header"
-import Image from "../../assets/image1.jpg"
-import Image2 from "../../assets/image2.jpg"
 import Footer from "../../Components/Layouts/Footer"
+import { motion } from "framer-motion"
 // import LazyLoad from "../../../../src/assets/lazy.png"
 import LazyLoad from "../../../src/assets/lazy.png"
 
@@ -21,9 +20,8 @@ import SubNav from "./componennts/SubNav"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import ProductList from "../Products/components/ProductList"
-import UseProduct from "../Admin/hooks/UseProduct"
+
 import toast from "react-hot-toast"
-import { LazyLoadImage } from "react-lazy-load-image-component"
 
 function Home() {
 	const [products, setProducts] = useState([])
@@ -66,7 +64,7 @@ function Home() {
 	}, [page])
 
 	return (
-		<>
+		<motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
 			<Header />
 			<div className="md:px-14 lg:px-20 bg-gray-900">
 				<CategoryLinks />
@@ -165,7 +163,7 @@ function Home() {
 			</div> */}
 
 			{/* <Footer /> */}
-		</>
+		</motion.div>
 	)
 }
 

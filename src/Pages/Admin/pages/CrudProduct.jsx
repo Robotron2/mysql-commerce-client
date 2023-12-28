@@ -10,39 +10,26 @@ import Update from "../components/Update"
 import UseCrud from "../hooks/UseCrud"
 import ProductDelete from "../components/ProductDelete"
 import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
 
 const CrudProduct = () => {
 	const { view, setView } = UseCrud()
 	const [nav, setNav] = useState(false)
 
 	return (
-		<div>
+		<motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
 			<div className="bg-gray-800 text-white">
 				{nav && (
 					<>
 						<div className="overlay w-full h-screen bg-black/80 fixed top-0 left-0 z-10 transition ease-in-out duration-500"></div>
 						<div className="fixed top-0 left-0 w-[300px] h-screen bg-gray-800 text-white z-10 duration-500">
 							{/* close nav */}
-							<div
-								className="flex justify-between items-center p-1 text-white"
-								onClick={() => setNav(!nav)}
-							>
+							<div className="flex justify-between items-center p-1 text-white" onClick={() => setNav(!nav)}>
 								<h2 className="text-2xl p-4 ">
 									Robo<span className="font-bold underline">Shopp</span>
 								</h2>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									strokeWidth="1.5"
-									stroke="currentColor"
-									className="w-8 h-8 mr-2 font-extrabold cursor-pointer"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										d="M6 18L18 6M6 6l12 12"
-									/>
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 mr-2 font-extrabold cursor-pointer">
+									<path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
 								</svg>
 							</div>
 							<nav>
@@ -147,7 +134,7 @@ const CrudProduct = () => {
 			{view === "create" && <Create />}
 			{view === "update" && <Update />}
 			{view === "delete" && <ProductDelete />}
-		</div>
+		</motion.div>
 	)
 }
 
