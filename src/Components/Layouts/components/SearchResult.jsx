@@ -32,12 +32,12 @@ const SearchResult = () => {
 
 	useEffect(() => {
 		handleSearch()
-	}, [])
+	}, [keyword])
 
 	return (
 		<>
 			<Header />
-			<div className="md:px-14 lg:px-44 mb-96">
+			<div className="md:px-14 lg:px-44 mb-96 px-10">
 				{products.length > 0 && <h1>Searched Results</h1>}
 
 				{products.length > 0 ? (

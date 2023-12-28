@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import Header from "../../../Components/Layouts/Header"
 import AdminLinks from "../components/AdminLinks"
+import { motion } from "framer-motion"
 
 function AllProducts() {
 	const [products, setProducts] = useState([])
@@ -20,7 +21,7 @@ function AllProducts() {
 	const baseUrl = `${import.meta.env.VITE_REACT_APP_API}`
 
 	return (
-		<>
+		<motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
 			<Header />
 			<div className="md:px-14 lg:px-44 bg-gray-900">
 				<AdminLinks />
@@ -49,7 +50,7 @@ function AllProducts() {
 					{/* {console.log(products[6].Image.image)} */}
 				</div>
 			</div>
-		</>
+		</motion.div>
 	)
 }
 
