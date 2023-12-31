@@ -40,21 +40,30 @@ const Header = () => {
 
 	const fetchRoles = async () => {
 		const apiEndpoint = `${import.meta.env.VITE_REACT_APP_API}`
-		const response = await axios.get(`${apiEndpoint}/auth/user/is-customer`, {
-			headers: {
-				accessToken: `${localAuth?.token}`,
-			},
-		})
-		// console.log(response)
-		const { roles } = response?.data
-		// console.log(roles)
-		if (roles && roles.isCustomer) {
-			setUserSession(true)
-			setAdminSession(false)
-		}
-		if (roles && roles.isAdmin) {
-			setUserSession(false)
-			setAdminSession(true)
+		try {
+			const response = await axios.get(`${apiEndpoint}/user/authorize-roles`, {
+				headers: {
+					Authorization: localAuth,
+				},
+			})
+			console.log(response)
+			if (response.data.success) {
+				toast.success(response.data.message)
+				setUser(response.data?.user)
+				console.log(user.name)
+			}
+			const roles = response.data.roles
+			// console.log(roles)
+			if (roles && roles.isCustomer) {
+				setUserSession(true)
+				setAdminSession(false)
+			}
+			if (roles && roles.isAdmin) {
+				setUserSession(false)
+				setAdminSession(true)
+			}
+		} catch (error) {
+			console.log(error)
 		}
 	}
 
@@ -69,7 +78,12 @@ const Header = () => {
 	return (
 		<>
 			{/* Overlay */}
-			{nav && <div className="overlay w-full h-screen bg-black/80 fixed top-0 left-0 z-40 transition ease-in-out duration-500" onClick={() => setNav(!nav)}></div>}
+			{nav && (
+				<div
+					className="overlay w-full h-screen bg-black/80 fixed top-0 left-0 z-40 transition ease-in-out duration-500"
+					onClick={() => setNav(!nav)}
+				></div>
+			)}
 
 			<div className="bg-gray-800 text-white p-4">
 				{/* Mobile navigations */}
@@ -80,7 +94,14 @@ const Header = () => {
 							<h2 className="text-2xl p-4 ">
 								Robo<span className="font-bold underline">Shopp</span>
 							</h2>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 mr-2 font-extrabold cursor-pointer">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								strokeWidth="1.5"
+								stroke="currentColor"
+								className="w-8 h-8 mr-2 font-extrabold cursor-pointer"
+							>
 								<path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
 							</svg>
 						</div>
@@ -139,10 +160,16 @@ const Header = () => {
 							<ul>
 								{isLoggedIn && userSession && (
 									<div className="col-start-10 row-start-1 col-span-12 login flex justify-between items-center w-56 ">
-										<Link className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" to={"/user/profile"}>
-											{user.username}
+										<Link
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											to={"/user/profile"}
+										>
+											{user?.name}
 										</Link>
-										<button className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" onClick={handleLogout}>
+										<button
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											onClick={handleLogout}
+										>
 											Logout
 										</button>
 									</div>
@@ -154,9 +181,12 @@ const Header = () => {
 											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 											to={"/admin/crud-product"}
 										>
-											{user.username}
+											{user?.name}
 										</Link>
-										<button className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" onClick={handleLogout}>
+										<button
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											onClick={handleLogout}
+										>
 											Logout
 										</button>
 									</div>
@@ -164,10 +194,16 @@ const Header = () => {
 
 								{isLoggedIn === false && (
 									<div className="col-start-10 row-start-1 col-span-12 login flex justify-between items-center w-56 ">
-										<Link className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" to="/login">
+										<Link
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											to="/login"
+										>
 											Login
 										</Link>
-										<Link className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" to="/register">
+										<Link
+											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+											to="/register"
+										>
 											Sign Up
 										</Link>
 									</div>
@@ -179,8 +215,18 @@ const Header = () => {
 
 				{/*Large screen*/}
 				<div className="grid grid-cols-12 gap-1 lg:flex lg:justify-between items-center md:px-10">
-					<div className="nav-menu lg:hidden text-white text-2xl  flex items-center col-span-1 col-start-1 col-end-1 row-start-1" onClick={() => setNav(!nav)}>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 cursor-pointer">
+					<div
+						className="nav-menu lg:hidden text-white text-2xl  flex items-center col-span-1 col-start-1 col-end-1 row-start-1"
+						onClick={() => setNav(!nav)}
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							strokeWidth="1.5"
+							stroke="currentColor"
+							className="w-6 h-6 cursor-pointer"
+						>
 							<path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
 						</svg>
 					</div>
@@ -197,10 +243,16 @@ const Header = () => {
 
 					{isLoggedIn && userSession && (
 						<div className=" login md:flex justify-between items-center w-56 col-span-3 hidden md:col-start-7 row-start-1">
-							<Link className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" to={"/admin/crud-product"}>
-								{user.username}
+							<Link
+								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+								to={"/admin/crud-product"}
+							>
+								{user?.name}
 							</Link>
-							<button className=" mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" onClick={handleLogout}>
+							<button
+								className=" mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+								onClick={handleLogout}
+							>
 								Logout
 							</button>
 						</div>
@@ -208,10 +260,16 @@ const Header = () => {
 
 					{isLoggedIn && adminSession && (
 						<div className=" login md:flex justify-between items-center w-56 col-span-3 hidden md:col-start-7 row-start-1">
-							<Link className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" to={"/admin/crud-product"}>
-								{user.username}
+							<Link
+								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+								to={"/admin/crud-product"}
+							>
+								{user?.name}
 							</Link>
-							<button className=" mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" onClick={handleLogout}>
+							<button
+								className=" mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+								onClick={handleLogout}
+							>
 								Logout
 							</button>
 						</div>
@@ -226,7 +284,10 @@ const Header = () => {
 							>
 								Login
 							</Link>
-							<Link className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out" to="/register">
+							<Link
+								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
+								to="/register"
+							>
 								Sign Up
 							</Link>
 						</div>
