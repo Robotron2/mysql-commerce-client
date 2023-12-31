@@ -94,12 +94,12 @@ function Home() {
 					>
 						{showCaseImages.length > 0 &&
 							showCaseImages.map((item, i) => {
-								let imagePath = item.Image.filePath.replace("/public//g", "")
+								let imagePath = item.Image?.filePath.replace("/public//g", "")
 
 								return (
 									<SwiperSlide key={i}>
 										<Link to={`/category/${item.Category.id}`}>
-											<img src={`${baseUrl}/${imagePath}`} alt="product-img" className="w-full object-cover h-[420px] rounded-md" />
+											<img src={`${baseUrl}/${imagePath}`} alt="product-img" className="w-full object-center h-[420px] rounded-md" />
 										</Link>
 									</SwiperSlide>
 								)
@@ -109,7 +109,7 @@ function Home() {
 				<div className="show-grid col-span-4 lg:col-span-1 grid grid-cols-4 gap-4 shadow-xl">
 					{showCaseImages.length > 0 &&
 						showCaseImages.map((item, i) => {
-							let imagePath = item.Image.filePath.replace("/public//g", "")
+							let imagePath = item.Image?.filePath.replace("/public//g", "")
 
 							return (
 								<div className=" col-span-2 rounded" key={i}>
@@ -144,8 +144,8 @@ function Home() {
 
 			<div className="top-category bg-inherit px-6 sm:px-8 md:px-14 lg:px-20 mt-6">
 				<div className=" bg-gray-900/90 rounded-tr-lg rounded-tl-lg flex justify-between p-3 text-white font-bold shadow-xl">
-					<h4 className="text-2xl">{categoryData.categoryName}</h4>
-					<Link to={`/category/${categoryData.id}`}>
+					<h4 className="text-2xl">{categoryData?.categoryName}</h4>
+					<Link to={`/category/${categoryData?.id}`}>
 						<h6 className="font-semibold cursor-pointer">See more</h6>
 					</Link>
 				</div>

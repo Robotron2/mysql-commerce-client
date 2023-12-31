@@ -17,6 +17,7 @@ function UpdateProduct() {
 	const [image, setImage] = useState(null)
 	const [localImage, setLocalImage] = useState(false)
 	const [updateImage, setUpdateImage] = useState(false)
+	const [isCreating, setIsCreating] = useState(false)
 
 	const localAuth = JSON.parse(localStorage.getItem("accessToken"))
 
@@ -34,9 +35,7 @@ function UpdateProduct() {
 	}
 
 	const getInitialProducts = async () => {
-		const response = await axios.get(
-			`${import.meta.env.VITE_REACT_APP_API}/products/product/${productId}`
-		)
+		const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API}/products/product/${productId}`)
 		// console.log(response)
 		setProductName(response.data.product.productName)
 		setDescription(response.data.product.description)
@@ -62,17 +61,15 @@ function UpdateProduct() {
 			formData.append("image", image)
 		}
 
+		setIsCreating(true)
+
 		try {
 			// console.log(updateImage)
-			const response = await axios.put(
-				`${import.meta.env.VITE_REACT_APP_API}/products/product/${productId}`,
-				formData,
-				{
-					headers: {
-						accessToken: `${localAuth?.token}`,
-					},
-				}
-			)
+			const response = await axios.put(`${import.meta.env.VITE_REACT_APP_API}/products/product/${productId}`, formData, {
+				headers: {
+					accessToken: `${localAuth?.token}`,
+				},
+			})
 			// console.log(response)
 			if (response.data.success) {
 				setProductId("")
@@ -87,15 +84,15 @@ function UpdateProduct() {
 			console.error(error)
 			toast.error(error.message)
 		}
+
+		setIsCreating(false)
 	}
 
 	return (
 		<>
 			<div className="md:px-14 lg:px-44">
 				<div className="form-container mt-8 shadow-lg bg-white rounded-md p-6">
-					<h1 className="font-bold text-2xl text-center mb-6">
-						Update Product
-					</h1>
+					<h1 className="font-bold text-2xl text-center mb-6">Update Product</h1>
 					<form onSubmit={handleFormSubmit} encType="multipart/form-data">
 						<div className="flex flex-col">
 							<input
@@ -140,37 +137,16 @@ function UpdateProduct() {
 						</div>
 
 						<div className="flex justify-between my-1">
-							{!localImage && (
-								<LazyLoadImage
-									alt={productName}
-									src={`${import.meta.env.VITE_REACT_APP_API}/${image}`}
-									className=" object-cover h-40 rounded-md w-40"
-									placeholderSrc="../../../../src/assets/lazy.png"
-								/>
-							)}
-							{localImage && (
-								<LazyLoadImage
-									alt={productName}
-									src={URL.createObjectURL(image)}
-									className=" object-cover h-40 rounded-md w-40"
-									placeholderSrc="../../../../src/assets/lazy.png"
-								/>
-							)}
+							{!localImage && <LazyLoadImage alt={productName} src={`${import.meta.env.VITE_REACT_APP_API}/${image}`} className=" object-cover h-40 rounded-md w-40" placeholderSrc="../../../../src/assets/lazy.png" />}
+							{localImage && <LazyLoadImage alt={productName} src={URL.createObjectURL(image)} className=" object-cover h-40 rounded-md w-40" placeholderSrc="../../../../src/assets/lazy.png" />}
 							<div className="">
 								<label className="btn btn-outline-secondary col-md-12">
-									<input
-										type="file"
-										onChange={handleFileChange}
-										accept="image/*"
-									/>
+									<input type="file" onChange={handleFileChange} accept="image/*" />
 								</label>
 							</div>
 						</div>
-						<button
-							type="submit"
-							className="bg-gray-600 text-white p-2 rounded-lg m-2 w-full"
-						>
-							Update Product
+						<button type="submit" className="bg-gray-600 text-white p-2 rounded-lg m-2 w-full disabled:cursor-not-allowed" disabled={isCreating}>
+							{isCreating ? "Updating..." : "Update Product"}
 						</button>
 					</form>
 				</div>

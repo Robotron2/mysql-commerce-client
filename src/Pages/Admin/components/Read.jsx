@@ -30,10 +30,7 @@ function Read() {
 						setPage(1)
 					}
 					if (page === 1) {
-						sessionStorage.setItem(
-							"products-admin",
-							JSON.stringify(response.data.products)
-						)
+						sessionStorage.setItem("products-admin", JSON.stringify(response.data.products))
 						setProducts(response.data.products)
 					}
 					setProducts(response.data.products)
@@ -54,20 +51,12 @@ function Read() {
 					</div>
 					<div className="grid grid-cols-12  gap-4 pt-8">
 						{products.map((product) => {
-							let imagePath = product.Image.filePath.replace("/public//g", "")
+							let imagePath = product.Image?.filePath.replace("/public//g", "")
 							return (
-								<div
-									className="col-span-12 md:col-span-6 lg:col-span-3 bg-white text-gray-800 h-full mx-2 rounded-md shadow-lg "
-									key={product.id}
-								>
+								<div className="col-span-12 md:col-span-6 lg:col-span-3 bg-white text-gray-800 h-full mx-2 rounded-md shadow-lg " key={product.id}>
 									<div className="bg-white rounded-md transform lg:hover:scale-105 transition duration-300">
 										<div className="h-60 w-full overflow-hidden">
-											<LazyLoadImage
-												alt="Product Image"
-												src={`${baseUrl}/${imagePath}`}
-												className=" object-cover rounded-md w-full h-full "
-												placeholderSrc="../../../../src/assets/lazy.png"
-											/>
+											<LazyLoadImage alt="Product Image" src={`${baseUrl}/${imagePath}`} className=" object-cover rounded-md w-full h-full " placeholderSrc="../../../../src/assets/lazy.png" />
 										</div>
 
 										<div className="p-2 rounded-md bg-white">

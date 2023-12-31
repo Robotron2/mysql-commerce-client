@@ -56,11 +56,13 @@ function ViewProduct() {
 			{productFound ? (
 				<>
 					<div className="px-6 sm:px-8 md:px-14 lg:px-20 mt-6  py-4 rounded-md m-2">
-						<div className="lg:grid grid-cols-3 gap-3">
+						<div className="lg:grid grid-cols-3 gap-3 ">
 							<div className="lg:col-span-2 row-span-1">
-								<LazyLoadImage alt="Product Image" src={`${baseUrl}/${imagePath}`} className=" object-cover rounded-md w-full h-full " placeholderSrc="../../../../src/assets/lazy.png" />
+								{/* <LazyLoadImage alt="Product Image" src={`${baseUrl}/${imagePath}`} className=" object-cover rounded-md w-full h-full " placeholderSrc="../../../../src/assets/lazy.png" /> */}
+								<img src={`${baseUrl}/${imagePath}`} alt="nothin" className="object-cover rounded-md w-96 h-96" />
 							</div>
-							<div className="mt-4 bg-gray-300 p-1 px-2 rounded-md shadow-lg lg:items-center row-span-1 lg:h-fit">
+
+							<div className="mt-4 bg-gray-100 p-1 px-2 rounded-md shadow-2xl lg:items-center row-span-1 lg:h-fit">
 								<div className="font-semibold lg:text-2xl lg:mt-10">{product.productName}</div>
 								<div className="lg:my-3">
 									<span className="font-bold text-lg lg:text-3xl">${product.price}</span>
