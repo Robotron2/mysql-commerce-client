@@ -12,10 +12,14 @@ function UpdateProduct() {
 	const { view, setView } = UseCrud()
 	const [productName, setProductName] = useState("")
 	const [description, setDescription] = useState("")
+	const [richDescription, setRichDescription] = useState("")
 	const [stockQuantity, setStockQuantity] = useState("")
 	const [price, setPrice] = useState("")
 	const [image, setImage] = useState(null)
 	const [localImage, setLocalImage] = useState(false)
+	// const [category, setCategory] = useState("")
+	const [isFeatured, setIsFeatured] = useState()
+	// const [categories, setCategories] = useState([])
 	const [updateImage, setUpdateImage] = useState(false)
 	const [isCreating, setIsCreating] = useState(false)
 
@@ -35,26 +39,33 @@ function UpdateProduct() {
 	}
 
 	const getInitialProducts = async () => {
-		const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API}/products/product/${productId}`)
-		// console.log(response)
-		setProductName(response.data.product.productName)
-		setDescription(response.data.product.description)
-		setStockQuantity(response.data.product.stockQuantity)
-		setPrice(response.data.product.price)
-		setImage(response.data.product.Image.filePath)
+		const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API}/products/product?id=${productId}`)
+		console.log(response)
+
+		setProductName(response.data?.product.name)
+		setDescription(response.data?.product.description)
+		setRichDescription(response.data?.product.richDescription)
+		setStockQuantity(response.data?.product.countInStock)
+		setPrice(response.data?.product.price)
+		setImage(response.data?.product.image)
+		setIsFeatured(response.data?.product.isFeatured)
 	}
 
 	useEffect(() => {
 		getInitialProducts()
 	}, [productId])
 
+	const handleSelectIsFeatured = (e) => {
+		setIsFeatured(e.target.value)
+	}
+
 	const handleFormSubmit = async (e) => {
 		e.preventDefault()
 		const formData = new FormData()
-		formData.append("product_name", productName)
-		formData.append("description", description)
-		formData.append("stock_quantity", stockQuantity)
+		formData.append("richDescription", richDescription)
+		formData.append("countInStock", stockQuantity)
 		formData.append("price", price)
+		formData.append("isFeatured", isFeatured)
 		formData.append("updateImage", JSON.stringify(updateImage))
 
 		if (updateImage === true) {
@@ -65,12 +76,12 @@ function UpdateProduct() {
 
 		try {
 			// console.log(updateImage)
-			const response = await axios.put(`${import.meta.env.VITE_REACT_APP_API}/products/product/${productId}`, formData, {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_APP_API}/products?productId=${productId}`, formData, {
 				headers: {
-					accessToken: `${localAuth?.token}`,
+					Authorization: localAuth,
 				},
 			})
-			// console.log(response)
+			console.log(response)
 			if (response.data.success) {
 				setProductId("")
 				setView("read")
@@ -87,67 +98,143 @@ function UpdateProduct() {
 
 		setIsCreating(false)
 	}
-
+	// /***
+	//  * {
+	// 				richDescription,
+	// 				image: !_.isNull(newImageUrl) ? newImageUrl : product.image,
+	// 				price,
+	// 				countInStock,
+	// 				isFeatured,
+	// 			},
+	//  /
 	return (
 		<>
 			<div className="md:px-14 lg:px-44">
 				<div className="form-container mt-8 shadow-lg bg-white rounded-md p-6">
-					<h1 className="font-bold text-2xl text-center mb-6">Update Product</h1>
+					{/* <h1 className="font-bold text-2xl text-center mb-6">Update Product</h1> */}
 					<form onSubmit={handleFormSubmit} encType="multipart/form-data">
-						<div className="flex flex-col">
-							<input
-								type="text"
-								value={productName}
-								onChange={(e) => setProductName(e.target.value)}
-								className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
-								placeholder="Name"
-								onFocus={handleFocus}
-							/>
-						</div>
-						<div>
-							<input
-								type="text"
-								value={description}
-								onChange={(e) => setDescription(e.target.value)}
-								className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
-								placeholder="Description"
-								onFocus={handleFocus}
-							/>
-						</div>
-						<div>
-							<input
-								type="number"
-								name="price"
-								placeholder="Price"
-								onChange={(e) => setPrice(e.target.value)}
-								className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
-								value={price}
-								onFocus={handleFocus}
-							/>
-						</div>
-						<div>
-							<input
-								type="number"
-								value={stockQuantity}
-								onChange={(e) => setStockQuantity(e.target.value)}
-								className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
-								placeholder="Quantity"
-								onFocus={handleFocus}
-							/>
-						</div>
+						<div className="mt-1 flex flex-row gap-2 justify-between">
+							<div className="w-full">
+								<label>Product name</label>
+								<input
+									type="text"
+									value={productName}
+									onChange={(e) => setProductName(e.target.value)}
+									className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2 disabled:cursor-not-allowed"
+									placeholder="Name"
+									onFocus={handleFocus}
+									disabled
+								/>
+							</div>
+							<div className="w-full">
+								<label>Product Quantity</label>
+								<input
+									type="number"
+									value={stockQuantity}
+									min={0}
+									onChange={(e) => setStockQuantity(e.target.value)}
+									className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
+									placeholder="Quantity"
+									onFocus={handleFocus}
+								/>
+							</div>
 
-						<div className="flex justify-between my-1">
-							{!localImage && <LazyLoadImage alt={productName} src={`${import.meta.env.VITE_REACT_APP_API}/${image}`} className=" object-cover h-40 rounded-md w-40" placeholderSrc="../../../../src/assets/lazy.png" />}
-							{localImage && <LazyLoadImage alt={productName} src={URL.createObjectURL(image)} className=" object-cover h-40 rounded-md w-40" placeholderSrc="../../../../src/assets/lazy.png" />}
-							<div className="">
-								<label className="btn btn-outline-secondary col-md-12">
-									<input type="file" onChange={handleFileChange} accept="image/*" />
-								</label>
+							<div className="w-full">
+								<label>Product Price: ${price}</label>
+								<input
+									type="number"
+									name="price"
+									placeholder="Price"
+									min={0}
+									onChange={(e) => setPrice(e.target.value)}
+									className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
+									value={price}
+									onFocus={handleFocus}
+								/>
+							</div>
+							<div className="w-full">
+								<label>Make a Featured Product</label>
+								<select
+									className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
+									onChange={handleSelectIsFeatured}
+									value={isFeatured}
+								>
+									{/* <select className="form-select form-control rounded-pill" onChange={handleSelectIsFeatured} value={isFeatured}> */}
+
+									<option disabled={true} value="">
+										Select a category
+									</option>
+
+									<option value={true}>True</option>
+									<option value={false}>False</option>
+								</select>
 							</div>
 						</div>
-						<button type="submit" className="bg-gray-600 text-white p-2 rounded-lg m-2 w-full disabled:cursor-not-allowed" disabled={isCreating}>
-							{isCreating ? "Updating..." : "Update Product"}
-						</button>
+
+						<div className="mt-1 flex flex-row gap-2 justify-between">
+							<div className="w-full">
+								<label htmlFor="">Product Description</label>
+								<input
+									type="text"
+									value={description}
+									onChange={(e) => setDescription(e.target.value)}
+									className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2 disabled:cursor-auto"
+									placeholder="Description"
+									onFocus={handleFocus}
+									disabled
+								/>
+							</div>
+							<div className="w-full">
+								<label htmlFor="">Product Detailed Description</label>
+
+								<textarea
+									name=""
+									id=""
+									// cols="20"
+									rows="3"
+									value={richDescription}
+									onChange={(e) => setRichDescription(e.target.value)}
+									maxLength={400}
+									className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2 "
+									placeholder="Input detailed description not more than 400 words"
+								></textarea>
+							</div>
+						</div>
+
+						<div className="flex my-1 justify-between">
+							{/* <div className="mt-1 flex flex-row gap-2 justify-between"> */}
+							<div>
+								{!localImage && (
+									<LazyLoadImage
+										alt={productName}
+										src={image}
+										className=" object-cover h-40 rounded-md w-40"
+										placeholderSrc="../../../../src/assets/lazy.png"
+									/>
+								)}
+								{localImage && (
+									<LazyLoadImage
+										alt={productName}
+										src={URL.createObjectURL(image)}
+										className=" object-cover h-40 rounded-md w-40"
+										placeholderSrc="../../../../src/assets/lazy.png"
+									/>
+								)}
+							</div>
+
+							<div className="flex align-baseline">
+								<input type="file" onChange={handleFileChange} accept="image/*" className="my-auto mx-auto" />
+							</div>
+						</div>
+						<div className="flex flex-row">
+							<button
+								type="submit"
+								className="bg-gray-600 text-white p-2 rounded-lg m-2 w-56 mx-auto disabled:cursor-not-allowed"
+								disabled={isCreating}
+							>
+								{isCreating ? "Updating..." : "Update Product"}
+							</button>
+						</div>
 					</form>
 				</div>
 			</div>
