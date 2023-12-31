@@ -11,7 +11,7 @@ const AuthProvider = ({ children }) => {
 	useEffect(() => {
 		const parsedData = JSON.parse(localStorage.getItem("accessToken"))
 		if (parsedData) {
-			setAuth({ token: parsedData.token })
+			setAuth({ token: parsedData })
 		}
 	}, [])
 

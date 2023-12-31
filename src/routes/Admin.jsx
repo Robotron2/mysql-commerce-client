@@ -14,25 +14,33 @@ const Admin = () => {
 	const [spinner, setSpinner] = useState(null)
 	const [auth, setAuth] = useAuth()
 	const localAuth = JSON.parse(localStorage.getItem("accessToken"))
-	axios.defaults.withCredentials = true
 
 	const authCheck = async () => {
 		setSpinner(true)
+		if (!localAuth) {
+			setOk(false)
+		}
 		const apiEndpoint = `${import.meta.env.VITE_REACT_APP_API}`
+		//
 		try {
-			const authResponse = await axios.get(`${apiEndpoint}/auth/user/admin-auth`, {
+			const response = await axios.get(`${apiEndpoint}/user/authorize-admin`, {
 				headers: {
-					accessToken: `${localAuth?.token}`,
+					Authorization: `${localAuth}`,
 				},
 			})
-			if (authResponse.data.ok) {
+
+			if (!response.data.success) {
+				setOk(false)
+			} else {
 				setOk(true)
-				// setSpinner(false)
+				setAuth({
+					...auth,
+					user: response.data?.user,
+					token: localAuth,
+				})
 			}
-			// console.log(authResponse)
 		} catch (error) {
 			console.log(error)
-			// setOk(false)
 		}
 		setSpinner(false)
 	}
@@ -44,7 +52,6 @@ const Admin = () => {
 	return (
 		<>
 			{spinner && <Spinner />}
-			{/* {(ok && !spinner) && <Outlet /> : <Login />} */}
 			{ok && !spinner && <Outlet />}
 			{!ok && !spinner && <Login />}
 		</>

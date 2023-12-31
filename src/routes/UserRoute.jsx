@@ -17,6 +17,9 @@ const User = () => {
 	// axios.defaults.withCredentials = true
 	const authCheck = async () => {
 		setSpinner(true)
+		if (!localAuth) {
+			setOk(false)
+		}
 		const apiEndpoint = `${import.meta.env.VITE_REACT_APP_API}`
 		//
 		try {
@@ -27,7 +30,7 @@ const User = () => {
 			})
 
 			if (!response.data.success) {
-				return setOk(false)
+				setOk(false)
 			} else {
 				setOk(true)
 				setAuth({
