@@ -10,7 +10,7 @@ import Login from "../Pages/Auth/Pages/Login"
 import Spinner from "../Components/Utils/Spinner"
 
 const User = () => {
-	const [ok, setOk] = useState("")
+	const [ok, setOk] = useState(false)
 	const [spinner, setSpinner] = useState(null)
 	const [auth, setAuth] = useAuth()
 	const localAuth = JSON.parse(localStorage.getItem("accessToken"))
@@ -18,14 +18,23 @@ const User = () => {
 	const authCheck = async () => {
 		setSpinner(true)
 		const apiEndpoint = `${import.meta.env.VITE_REACT_APP_API}`
+		//
 		try {
-			const authResponse = await axios.get(`${apiEndpoint}/auth/user/user-auth`, {
+			const response = await axios.get(`${apiEndpoint}/user/authorize-user`, {
 				headers: {
-					accessToken: `${localAuth?.token}`,
+					Authorization: `${localAuth}`,
 				},
 			})
-			if (authResponse.data.ok) {
+
+			if (!response.data.success) {
+				return setOk(false)
+			} else {
 				setOk(true)
+				setAuth({
+					...auth,
+					user: response.data?.user,
+					token: localAuth,
+				})
 			}
 		} catch (error) {
 			console.log(error)
@@ -47,3 +56,8 @@ const User = () => {
 }
 
 export default User
+
+// Gogo Task Dedicated to me. 31/12/2023
+//Get webservice running in no time.
+// Create a mobile app that
+//Subscriptions for the whole year as regards the website and the mobile app.

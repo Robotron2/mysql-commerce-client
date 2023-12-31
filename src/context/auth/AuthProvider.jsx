@@ -3,7 +3,10 @@ import AuthContext from "./AuthContext"
 
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({ children }) => {
-	const [auth, setAuth] = useState()
+	const [auth, setAuth] = useState({
+		token: null,
+		user: null,
+	})
 
 	useEffect(() => {
 		const parsedData = JSON.parse(localStorage.getItem("accessToken"))

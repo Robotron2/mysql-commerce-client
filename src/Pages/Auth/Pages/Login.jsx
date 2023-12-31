@@ -32,10 +32,12 @@ function Login() {
 		setIsLoading(true)
 
 		try {
+			setIsLoading(true)
 			const response = await axios.post(`${import.meta.env.VITE_REACT_APP_API}/user/login`, data)
 
 			if (!response.data.success) {
 				toast.error("Error logging in")
+				// console.log(response.data)
 			}
 			localStorage.setItem("accessToken", JSON.stringify(response.data?.token))
 			toast.success("Logged in successfully")
@@ -43,9 +45,10 @@ function Login() {
 
 			// console.log(response)
 			// setAuth({ data })
+			setIsLoading(false)
 		} catch (error) {
-			console.log(error)
-			toast.error(error.response.data.error)
+			// console.log(error)
+			toast.error(error.response.data.message)
 		}
 		setIsLoading(false)
 	}
