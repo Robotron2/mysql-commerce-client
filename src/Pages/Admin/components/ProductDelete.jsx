@@ -21,11 +21,12 @@ function ProductDelete() {
 	const handleDelete = async () => {
 		if (isConfirming) {
 			try {
-				const response = await axios.delete(`${baseUrl}/products/product/${productId}`, {
+				const response = await axios.delete(`${import.meta.env.VITE_REACT_APP_API}/products/${productId}`, {
 					headers: {
-						accessToken: `${localAuth?.token}`,
+						Authorization: localAuth,
 					},
 				})
+				// console.log(response)
 
 				if (response.data.success) {
 					setProductId("")
@@ -48,7 +49,7 @@ function ProductDelete() {
 	}
 
 	const getProductToDelete = async () => {
-		const response = await axios.get(`${baseUrl}/products/product/${productId}`)
+		const response = await axios.get(`${baseUrl}/products/product?id=${productId}`)
 		if (response.data.success) {
 			setProduct(response.data.product)
 		}
@@ -58,7 +59,7 @@ function ProductDelete() {
 		getProductToDelete()
 	}, [])
 
-	let imagePath = product?.Image?.filePath.replace("/public//g", "")
+	let imagePath = product?.image
 	return (
 		<div>
 			{isConfirming ? (
@@ -67,14 +68,20 @@ function ProductDelete() {
 						<div className="p-2 rounded-md bg-white">
 							<h2>
 								Are you sure you want to delete
-								<span className="font-semibold">{" " + product.productName}</span>?
+								<span className="font-semibold">{" " + product.name}</span>?
 							</h2>
 						</div>
 						<div className="p-2 grid grid-cols-2 gap-2">
-							<button onClick={() => setIsConfirming(false)} className="bg-yellow-300 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-yellow-400 transition ease-in-out duration-300">
+							<button
+								onClick={() => setIsConfirming(false)}
+								className="bg-yellow-300 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-yellow-400 transition ease-in-out duration-300"
+							>
 								Cancel
 							</button>
-							<button onClick={handleDelete} className="bg-red-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-red-700 transition ease-in-out duration-300">
+							<button
+								onClick={handleDelete}
+								className="bg-red-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-red-700 transition ease-in-out duration-300"
+							>
 								Confirm
 							</button>
 						</div>
@@ -86,13 +93,18 @@ function ProductDelete() {
 						<>
 							<div className="bg-white rounded-md w-80 mx-auto mt-20 shadow-2xl">
 								<div className="h-60 w-full overflow-hidden">
-									<LazyLoadImage alt="Product Image" src={`${baseUrl}/${imagePath}`} className=" object-cover rounded-md w-full h-full " placeholderSrc="../../../../src/assets/lazy.png" />
+									<LazyLoadImage
+										alt="Product Image"
+										src={imagePath}
+										className=" object-cover rounded-md w-full h-full "
+										placeholderSrc="../../../../src/assets/lazy.png"
+									/>
 								</div>
 
 								<div className="p-2 rounded-md bg-white">
 									<h2>
 										<span className="font-semibold">Product Name: </span>
-										{product.productName.substring(0, 15) + "..."}
+										{product.name.substring(0, 15) + "..."}
 									</h2>
 									<h2>
 										<span className="font-semibold">Category: </span>
@@ -100,24 +112,30 @@ function ProductDelete() {
 									</h2>
 									<p>
 										<span className="font-semibold"> Quantity: </span>
-										{product.stockQuantity}
+										{product.countStock}
 									</p>
 									<p>
 										<span className="font-semibold">Description: </span>
 										{product.description.substring(0, 15) + "..."}
 									</p>
 									<p>
-										<span className="font-semibold">Price:Money </span>
+										<span className="font-semibold">Price: </span>
 										<span className="font-bold ml-1">
 											${product.price}.<span className="text-xs">99</span>
 										</span>
 									</p>
 								</div>
 								<div className="p-2 grid grid-cols-2 gap-2">
-									<button className="bg-red-500 text-white text-center rounded-md py-2 md:col-span-2 hover:bg-red-700 transition ease-in-out duration-300" onClick={() => setIsConfirming(true)}>
+									<button
+										className="bg-red-500 text-white text-center rounded-md py-2 md:col-span-2 hover:bg-red-700 transition ease-in-out duration-300"
+										onClick={() => setIsConfirming(true)}
+									>
 										Delete
 									</button>
-									<button className="bg-gray-700 text-white text-center rounded-md py-2 md:col-span-2 hover:bg-gray-800 transition ease-in-out duration-300" onClick={() => setView("read")}>
+									<button
+										className="bg-gray-700 text-white text-center rounded-md py-2 md:col-span-2 hover:bg-gray-800 transition ease-in-out duration-300"
+										onClick={() => setView("read")}
+									>
 										Back
 									</button>
 								</div>

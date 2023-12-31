@@ -81,7 +81,7 @@ function UpdateProduct() {
 					Authorization: localAuth,
 				},
 			})
-			console.log(response)
+			// console.log(response)
 			if (response.data.success) {
 				setProductId("")
 				setView("read")
@@ -114,6 +114,7 @@ function UpdateProduct() {
 					{/* <h1 className="font-bold text-2xl text-center mb-6">Update Product</h1> */}
 					<form onSubmit={handleFormSubmit} encType="multipart/form-data">
 						<div className="mt-1 flex flex-row gap-2 justify-between">
+							{/* Name, Price, Qty, Featured */}
 							<div className="w-full">
 								<label>Product name</label>
 								<input
@@ -171,19 +172,25 @@ function UpdateProduct() {
 							</div>
 						</div>
 
+						{/* Description */}
 						<div className="mt-1 flex flex-row gap-2 justify-between">
 							<div className="w-full">
 								<label htmlFor="">Product Description</label>
-								<input
-									type="text"
+								<textarea
+									name=""
+									id=""
+									cols="30"
+									rows="3"
 									value={description}
-									onChange={(e) => setDescription(e.target.value)}
-									className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2 disabled:cursor-auto"
-									placeholder="Description"
 									onFocus={handleFocus}
+									onChange={(e) => setDescription(e.target.value)}
+									maxLength={200}
+									className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2 disabled:cursor-auto"
+									placeholder="Input detailed description not more than 200 words"
 									disabled
-								/>
+								></textarea>
 							</div>
+
 							<div className="w-full">
 								<label htmlFor="">Product Detailed Description</label>
 
@@ -201,6 +208,7 @@ function UpdateProduct() {
 							</div>
 						</div>
 
+						{/* Image  */}
 						<div className="flex my-1 justify-between">
 							{/* <div className="mt-1 flex flex-row gap-2 justify-between"> */}
 							<div>
@@ -226,6 +234,8 @@ function UpdateProduct() {
 								<input type="file" onChange={handleFileChange} accept="image/*" className="my-auto mx-auto" />
 							</div>
 						</div>
+
+						{/* Update Button */}
 						<div className="flex flex-row">
 							<button
 								type="submit"

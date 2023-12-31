@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import axios from "axios"
+import axios, { all } from "axios"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import UseCrud from "../hooks/UseCrud"
@@ -9,9 +9,11 @@ function Create() {
 	const [price, setPrice] = useState("")
 	const [stockQuantity, setStockQuantity] = useState("")
 	const [category, setCategory] = useState("")
-	const [file, setFile] = useState(null)
+	const [richDescription, setRichDescription] = useState("")
 	const [categories, setCategories] = useState([])
+	const [file, setFile] = useState(null)
 	const [isCreating, setIsCreating] = useState(false)
+	const [isFeatured, setIsFeatured] = useState(false)
 
 	const localAuth = JSON.parse(localStorage.getItem("accessToken"))
 
@@ -23,6 +25,10 @@ function Create() {
 
 	const handleSelectCategory = (e) => {
 		setCategory(e.target.value)
+	}
+
+	const handleSelectIsFeatured = (e) => {
+		setIsFeatured(e.target.value)
 	}
 
 	const handleFormSubmit = async (e) => {
@@ -39,15 +45,26 @@ function Create() {
 			}
 			const formData = new FormData()
 			formData.append("image", file)
-			formData.append("product_name", productName)
+			formData.append("name", productName)
 			formData.append("description", description)
+			formData.append("richDescription", richDescription)
 			formData.append("categoryId", category)
 			formData.append("price", price)
-			formData.append("stock_quantity", stockQuantity)
-
-			const response = await axios.post(`${import.meta.env.VITE_REACT_APP_API}/products/create-product`, formData, {
+			formData.append("isFeatured", isFeatured)
+			formData.append("countInStock", stockQuantity)
+			// {
+			//     "name": "Product to delete",
+			//     "description": "Product 3 description",
+			//     "richDescription": "Product 3 Rich description",
+			//     "image": "product3/image-3.jpg",
+			//     "price": 20,
+			//     "categoryId": "659000e278f5615ae92827ea",
+			//     "countInStock": 20,
+			//     "isFeatured": false
+			//   }
+			const response = await axios.post(`${import.meta.env.VITE_REACT_APP_API}/products`, formData, {
 				headers: {
-					accessToken: `${localAuth?.token}`,
+					Authorization: `${localAuth}`,
 				},
 			})
 			if (response.data.success) {
@@ -73,9 +90,10 @@ function Create() {
 
 	async function getAllCategories() {
 		try {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API}/category/`)
+			const response = await axios.get(`${import.meta.env.VITE_REACT_APP_API}/categories`)
 			if (response.data.success) {
 				setCategories(response.data?.allCategories)
+				// console.log(response.data)
 			} else {
 				throw Error("Something went wrong fam.")
 			}
@@ -93,57 +111,129 @@ function Create() {
 			<div className="form-container mt-8 shadow-lg bg-white rounded-md p-6">
 				<h1 className="font-bold text-2xl text-center mb-6">Create Product</h1>
 				<form onSubmit={handleFormSubmit} encType="multipart/form-data">
-					<div className="flex flex-col">
-						<input type="text" name="name" placeholder="Product Name" onChange={(e) => setProductName(e.target.value)} className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2" value={productName} />
-					</div>
-					<div>
-						<input
-							type="text"
-							name="description"
-							placeholder="Product Description:"
-							onChange={(e) => setDescription(e.target.value)}
-							className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
-							value={description}
-						/>
-					</div>
-					<div>
-						<input type="number" name="price" placeholder="Price" onChange={(e) => setPrice(e.target.value)} className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2" value={price} />
-					</div>
-					<div>
-						<input
-							type="number"
-							name="stock_quantity"
-							placeholder="Stock Quantity"
-							onChange={(e) => setStockQuantity(e.target.value)}
-							className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
-							value={stockQuantity}
-						/>
-					</div>
-
-					<div className="flex justify-between my-1">
-						<select className="form-select form-control rounded-pill" onChange={handleSelectCategory} value={category}>
-							<option disabled={true} value="">
-								Select a category
-							</option>
-							{categories.map((category) => {
-								return (
-									<option value={category.id} key={category.id}>
-										{category.categoryName}
-									</option>
-								)
-							})}
-						</select>
+					<div className="mt-1 flex flex-row gap-2 justify-between">
+						<div>
+							<label htmlFor="name">Product Name</label>
+							<input
+								type="text"
+								name="name"
+								placeholder="Product Name"
+								onChange={(e) => setProductName(e.target.value)}
+								className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
+								value={productName}
+							/>
+						</div>
 
 						<div>
+							<label htmlFor="countInStock">Stock Quantity</label>
+							<input
+								type="number"
+								name="countInStock"
+								placeholder="Stock Quantity"
+								min={1}
+								onChange={(e) => setStockQuantity(e.target.value)}
+								className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
+								value={stockQuantity}
+							/>
+						</div>
+
+						<div>
+							<label htmlFor="price">{"Price ($)"}</label>
+							<input
+								type="number"
+								name="price"
+								placeholder="Price"
+								onChange={(e) => setPrice(e.target.value)}
+								className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
+								value={price}
+							/>
+						</div>
+
+						<div>
+							<label>Product Category</label>
+							<select
+								className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
+								onChange={handleSelectCategory}
+								value={category}
+							>
+								<option disabled={true} value="">
+									Select a category
+								</option>
+								{categories.length > 0 &&
+									categories.map((cat) => {
+										return (
+											<option value={cat.id} key={cat.id}>
+												{cat.name}
+											</option>
+										)
+									})}
+							</select>
+						</div>
+
+						<div>
+							<label>Make a Featured Product</label>
+							<select
+								className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
+								onChange={handleSelectIsFeatured}
+								value={isFeatured}
+							>
+								<option disabled={true} value="">
+									Product to feature
+								</option>
+
+								<option value={true}>True</option>
+								<option value={false}>False</option>
+							</select>
+						</div>
+					</div>
+
+					{/* Description */}
+					<div className="mt-1 flex flex-row gap-8 justify-between">
+						<div className="w-full">
+							<label htmlFor="description">Product Description</label>
+							<textarea
+								name="description"
+								id=""
+								// cols="30"
+								rows="3"
+								value={description}
+								onChange={(e) => setDescription(e.target.value)}
+								maxLength={200}
+								className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2 "
+								placeholder="Input detailed description not more than 200 words"
+							></textarea>
+						</div>
+
+						<div className="w-full">
+							<label htmlFor="richDescription">Product Detailed Description</label>
+
+							<textarea
+								name="richDescription"
+								id=""
+								// cols="20"
+								rows="3"
+								value={richDescription}
+								onChange={(e) => setRichDescription(e.target.value)}
+								maxLength={400}
+								className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2 "
+								placeholder="Input detailed description not more than 400 words"
+							></textarea>
+						</div>
+					</div>
+					{/*Image and create button  */}
+					<div className="flex justify-around align-middle my-1 ">
+						<div className="">
 							<label className="btn btn-outline-secondary col-md-12">
 								{/* <input type="file" name="image" accept="image/*" onChange={handleImageChange} /> */}
 								<input type="file" name="image" accept="image/*" onChange={handleFileChange} />
 							</label>
 						</div>
+						<div className="w-56">
+							<button type="submit" className="bg-gray-600 text-white p-2 rounded-lg m-2 w-full disabled:cursor-not-allowed" disabled={isCreating}>
+								{isCreating ? "Creating..." : "Create Product"}
+							</button>
+						</div>
 					</div>
-					<button type="submit" className="bg-gray-600 text-white p-2 rounded-lg m-2 w-full disabled:cursor-not-allowed" disabled={isCreating}>
-						{isCreating ? "Creating..." : "Create Product"}
-					</button>
 				</form>
 			</div>
 		</div>
