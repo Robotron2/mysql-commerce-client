@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Link, useNavigate } from "react-router-dom"
+import { Link, json, useNavigate } from "react-router-dom"
 import brand from "../../assets/brandLogo.png"
 import { useEffect, useState } from "react"
 
@@ -46,7 +46,7 @@ const Header = () => {
 					Authorization: localAuth,
 				},
 			})
-			console.log(response)
+			// console.log(response)
 			if (response.data.success) {
 				toast.success(response.data.message)
 				setUser(response.data?.user)
@@ -69,10 +69,6 @@ const Header = () => {
 
 	useEffect(() => {
 		fetchRoles()
-		if (localAuth) {
-			setIsLoggedIn(true)
-			setUser(localAuth?.user)
-		}
 	}, [])
 
 	return (
