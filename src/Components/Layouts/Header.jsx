@@ -165,7 +165,7 @@ const Header = () => {
 											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 											to={"/user/profile"}
 										>
-											{/* {user?.name} */}name
+											{user?.name.split(" ")[0]}
 										</Link>
 										<button
 											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
@@ -182,7 +182,7 @@ const Header = () => {
 											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 											to={"/admin/crud-product"}
 										>
-											{/* {user?.name} */}name
+											{user?.name.split(" ")[0]}
 										</Link>
 										<button
 											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
@@ -248,7 +248,7 @@ const Header = () => {
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 								to={"/admin/crud-product"}
 							>
-								{/* {user?.name} */}name
+								{user?.name.split(" ")[0]}
 							</Link>
 							<button
 								className=" mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
@@ -265,7 +265,7 @@ const Header = () => {
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 								to={"/admin/crud-product"}
 							>
-								{/* {user?.name} */}name
+								{user?.name.split(" ")[0]}
 							</Link>
 							<button
 								className=" mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"

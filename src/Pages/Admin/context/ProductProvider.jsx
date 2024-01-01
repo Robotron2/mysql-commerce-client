@@ -6,9 +6,16 @@ import ProductContext from "./ProductContext"
 const ProductProvider = ({ children }) => {
 	const [productId, setProductId] = useState("")
 	const [categoryId, setCategoryId] = useState("")
+	const [randomcategoryId, setRandomCategoryId] = useState("")
 	const [categoryLength, setCategoryLength] = useState("")
 
-	return <ProductContext.Provider value={{ productId, setProductId, categoryId, setCategoryId, categoryLength, setCategoryLength }}>{children}</ProductContext.Provider>
+	return (
+		<ProductContext.Provider
+			value={{ productId, setProductId, categoryId, setCategoryId, randomcategoryId, setRandomCategoryId, categoryLength, setCategoryLength }}
+		>
+			{children}
+		</ProductContext.Provider>
+	)
 }
 
 export default ProductProvider
