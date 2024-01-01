@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { Link, json, useNavigate } from "react-router-dom"
 import brand from "../../assets/brandLogo.png"
@@ -48,22 +49,26 @@ const Header = () => {
 			})
 			// console.log(response)
 			if (response.data.success) {
-				toast.success(response.data.message)
+				// toast.success(response.data.message)
 				setUser(response.data?.user)
-				console.log(user.name)
+				setIsLoggedIn(true)
+				// console.log(user.name)
 			}
 			const roles = response.data.roles
 			// console.log(roles)
 			if (roles && roles.isCustomer) {
 				setUserSession(true)
 				setAdminSession(false)
+				// setIsLoggedIn(true)
 			}
 			if (roles && roles.isAdmin) {
 				setUserSession(false)
 				setAdminSession(true)
+				// setIsLoggedIn(true)
 			}
 		} catch (error) {
 			console.log(error)
+			setIsLoggedIn(false)
 		}
 	}
 
@@ -160,7 +165,7 @@ const Header = () => {
 											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 											to={"/user/profile"}
 										>
-											{user?.name}
+											{/* {user?.name} */}name
 										</Link>
 										<button
 											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
@@ -177,7 +182,7 @@ const Header = () => {
 											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 											to={"/admin/crud-product"}
 										>
-											{user?.name}
+											{/* {user?.name} */}name
 										</Link>
 										<button
 											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
@@ -243,7 +248,7 @@ const Header = () => {
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 								to={"/admin/crud-product"}
 							>
-								{user?.name}
+								{/* {user?.name} */}name
 							</Link>
 							<button
 								className=" mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
@@ -260,7 +265,7 @@ const Header = () => {
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 								to={"/admin/crud-product"}
 							>
-								{user?.name}
+								{/* {user?.name} */}name
 							</Link>
 							<button
 								className=" mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center text-bold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
