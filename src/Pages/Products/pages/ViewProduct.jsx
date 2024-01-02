@@ -26,13 +26,14 @@ function ViewProduct() {
 		setProductQuantity(1)
 
 		try {
-			const response = await axios.get(`${baseUrl}/products/product/${id}?category=${true}`)
+			const response = await axios.get(`${baseUrl}/products/product/?id=${id}`)
+			console.log(response)
 			if (response.data.success) {
 				setProductFound(true)
 				setProduct(response.data.product)
-				setMaxQuantity(parseInt(response.data.product?.stockQuantity))
+				setMaxQuantity(parseInt(response.data.product?.countInStock))
 				setIsAvailable(response.data?.isAvailable)
-				setImagePath(response.data.product?.Image.filePath)
+				setImagePath(response.data.product?.image)
 				setRelatedProducts(response.data?.relatedProducts)
 			}
 		} catch (error) {
@@ -57,18 +58,29 @@ function ViewProduct() {
 				<>
 					<div className="px-6 sm:px-8 md:px-14 lg:px-20 mt-6  py-4 rounded-md m-2">
 						<div className="lg:grid grid-cols-3 gap-3 ">
-							<div className="lg:col-span-2 row-span-1">
+							<div className="col-span-3 lg:col-span-2 row-span-1">
 								{/* <LazyLoadImage alt="Product Image" src={`${baseUrl}/${imagePath}`} className=" object-cover rounded-md w-full h-full " placeholderSrc="../../../../src/assets/lazy.png" /> */}
-								<img src={`${baseUrl}/${imagePath}`} alt="nothin" className="object-cover rounded-md w-96 h-96" />
+								<img src={imagePath} alt="nothin" className="object-cover rounded-md w-full h-96" />
 							</div>
 
-							<div className="mt-4 bg-gray-100 p-1 px-2 rounded-md shadow-2xl lg:items-center row-span-1 lg:h-fit">
-								<div className="font-semibold lg:text-2xl lg:mt-10">{product.productName}</div>
-								<div className="lg:my-3">
+							{/* Full Description */}
+							<div className="col-span-3 row-start-2 mt-4 lg:mt-0 bg-gray-100  p-2 rounded-md shadow-2xl lg:items-center row-span-1 lg:h-fit">
+								<h6 className="font-semibold lg:text-xl text-gray-600">Full description</h6>
+								<div>
+									<p className="inline flex-wrap text-gray-500">{product.richDescription}</p>
+								</div>
+							</div>
+
+							<div className="mt-4 lg:mt-0 bg-gray-100 p-1 px-2 rounded-md shadow-2xl lg:items-center row-span-1 lg:h-fit">
+								<div className="font-semibold lg:text-2xl lg:mt-10">
+									<span className="text-gray-400">Product name:</span> {product.name}
+								</div>
+								<div className="lg:my-3 font-semibold">
+									<span className="text-gray-400 lg:text-2xl">Product price: </span>
 									<span className="font-bold text-lg lg:text-3xl">${product.price}</span>
 								</div>
-								<div>
-									<span className="font-semibold lg:text-xl">Description:</span>
+								<div className="lg:my-3 font-semibold">
+									<span className="text-gray-400 lg:text-2xl">Description:</span>
 									<p className="inline flex-wrap ml-1">{product.description}</p>
 								</div>
 								{maxQuantity > 0 && (
@@ -111,7 +123,10 @@ function ViewProduct() {
 								<div className="my-4 w-28 mx-auto md:w-full">
 									{isAvailable == true && <AddToCartButton productId={product.id} quantity={productQuantity} />}
 									{isAvailable == false && (
-										<button disabled className=" w-full bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300 disabled:cursor-not-allowed">
+										<button
+											disabled
+											className=" w-full bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300 disabled:cursor-not-allowed"
+										>
 											Out Of Stock
 										</button>
 									)}
@@ -120,12 +135,13 @@ function ViewProduct() {
 						</div>
 					</div>
 
+					{/* Related Products */}
 					<div className="top-category bg-inherit px-6 sm:px-8 md:px-14 lg:px-20 mt-6">
 						<div className=" bg-gray-900/90 rounded-tr-lg rounded-tl-lg flex justify-between p-3 text-white font-bold shadow-xl">
 							<h4 className="text-2xl">Related</h4>
 						</div>
 
-						<ProductList products={relatedProducts} />
+						{/* <ProductList products={relatedProducts} /> */}
 					</div>
 				</>
 			) : (
@@ -136,7 +152,9 @@ function ViewProduct() {
 								<div className="mt-12 flex flex-col items-center">
 									<h1 className="text-2xl xl:text-3xl font-bold text-gray-800">Oops!!</h1>
 									<h1 className="text-2xl xl:text-3xl font-bold text-gray-800">Product not found.</h1>
-									<button className=" w-52 bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300">Go back</button>
+									<button className=" w-52 bg-gray-500 text-white text-center rounded-md py-2 md:col-span-1 hover:bg-gray-700 transition ease-in-out duration-300">
+										Go back
+									</button>
 								</div>
 							</div>
 							<div className="flex-1 bg-gray-100 text-center hidden lg:flex">

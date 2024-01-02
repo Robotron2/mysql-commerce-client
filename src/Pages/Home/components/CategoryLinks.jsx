@@ -6,21 +6,21 @@ import UseProduct from "../../Admin/hooks/UseProduct"
 
 function CategoryLinks() {
 	const [categories, setCategories] = useState([])
-	const { setCategoryLength, setCategoryId, randomcategoryId, setRandomCategoryId } = UseProduct()
+	const { setCategoryLength, setCategoryId, setRandomCategoryId } = UseProduct()
 	const navigate = useNavigate()
 
 	const getAllCategories = async () => {
 		const baseUrl = `${import.meta.env.VITE_REACT_APP_API}`
 		try {
 			const response = await axios.get(`${baseUrl}/categories`)
-			console.log(response)
+			// console.log(response)
 			if (response.data.success) {
 				const requiredCats = response.data?.allCategories
 				setCategoryLength(requiredCats.length)
 				setCategories(requiredCats)
 				const randomCategoryId = Math.ceil(Math.random() * categories.length)
 				setRandomCategoryId(requiredCats[randomCategoryId].id)
-				console.log(randomcategoryId)
+				// console.log(randomcategoryId)
 			}
 		} catch (error) {
 			console.error(error)
