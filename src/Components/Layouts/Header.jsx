@@ -47,12 +47,10 @@ const Header = () => {
 					Authorization: localAuth,
 				},
 			})
-			// console.log(response)
+			console.log(response)
 			if (response.data.success) {
-				// toast.success(response.data.message)
 				setUser(response.data?.user)
 				setIsLoggedIn(true)
-				// console.log(user.name)
 			}
 			const roles = response.data.roles
 			// console.log(roles)
@@ -61,7 +59,7 @@ const Header = () => {
 				setAdminSession(false)
 				// setIsLoggedIn(true)
 			}
-			if (roles && roles.isAdmin) {
+			if (roles && roles.isCustomer && roles.isAdmin) {
 				setUserSession(false)
 				setAdminSession(true)
 				// setIsLoggedIn(true)
@@ -177,7 +175,7 @@ const Header = () => {
 								)}
 
 								{isLoggedIn && adminSession && (
-									<div className="col-start-10 row-start-1 col-span-12 login flex justify-between items-center w-56 ">
+									<div className="col-start-10 row-start-1 col-span-12 login flex justify-between items-center w-56 " onClick={() => setView("read")}>
 										<Link
 											className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 											to={"/admin/crud-product"}
@@ -246,7 +244,7 @@ const Header = () => {
 						<div className=" login md:flex justify-between items-center w-56 col-span-3 hidden md:col-start-7 row-start-1">
 							<Link
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
-								to={"/admin/crud-product"}
+								to={"/user/profile"}
 							>
 								{user?.name.split(" ")[0]}
 							</Link>
@@ -260,7 +258,10 @@ const Header = () => {
 					)}
 
 					{isLoggedIn && adminSession && (
-						<div className=" login md:flex justify-between items-center w-56 col-span-3 hidden md:col-start-7 row-start-1">
+						<div
+							className=" login md:flex justify-between items-center w-56 col-span-3 hidden md:col-start-7 row-start-1"
+							onClick={() => setView("read")}
+						>
 							<Link
 								className="mx-1 bg-white text-gray-900 p-2 rounded-full w-full text-sm text-center capitalize font-semibold hover:bg-slate-500 hover:text-white transition duration-300 ease-in-out"
 								to={"/admin/crud-product"}

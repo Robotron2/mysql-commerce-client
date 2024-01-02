@@ -152,7 +152,7 @@ function Create() {
 						<div>
 							<label>Product Category</label>
 							<select
-								className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2"
+								className="bg-gray-200 shadow-md p-2 text-gray-900 focus:outline-none rounded-md w-full my-2 capitalize"
 								onChange={handleSelectCategory}
 								value={category}
 							>

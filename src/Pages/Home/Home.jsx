@@ -71,9 +71,10 @@ function Home() {
 					>
 						{showCaseImages.length > 0 &&
 							showCaseImages.map((item, i) => {
+								// console.log(item)
 								return (
 									<SwiperSlide key={i}>
-										<Link to={`/category/${item.category}`}>
+										<Link to={`/category/${item.category._id}`}>
 											<img src={item?.image} alt="product-img" className="w-full object-center h-[420px] rounded-md" />
 										</Link>
 									</SwiperSlide>
@@ -86,7 +87,7 @@ function Home() {
 						showCaseImages.map((item, i) => {
 							return (
 								<div className=" col-span-2 rounded" key={i}>
-									<Link to={`/category/${item.category}`}>
+									<Link to={`/category/${item.category._id}`}>
 										<img src={item.image} alt="product-img" className="w-full object-cover h-48 rounded-md" />
 										{/* <img src={`${baseUrl}/${imagePath}`} alt="product-img" className="w-full object-cover h-48 rounded-md" /> */}
 									</Link>

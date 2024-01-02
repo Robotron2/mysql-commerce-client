@@ -3,7 +3,7 @@ import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom"
 import Header from "../../../Components/Layouts/Header"
 import { useEffect, useState } from "react"
-import { LazyLoadImage } from "react-lazy-load-image-component"
+// import { LazyLoadImage } from "react-lazy-load-image-component"
 import toast from "react-hot-toast"
 import ProductList from "../components/ProductList"
 import AddToCartButton from "../components/AddToCartButton"
@@ -27,7 +27,7 @@ function ViewProduct() {
 
 		try {
 			const response = await axios.get(`${baseUrl}/products/product/?id=${id}`)
-			console.log(response)
+			// console.log(response)
 			if (response.data.success) {
 				setProductFound(true)
 				setProduct(response.data.product)
@@ -141,7 +141,7 @@ function ViewProduct() {
 							<h4 className="text-2xl">Related</h4>
 						</div>
 
-						{/* <ProductList products={relatedProducts} /> */}
+						<ProductList products={relatedProducts} />
 					</div>
 				</>
 			) : (

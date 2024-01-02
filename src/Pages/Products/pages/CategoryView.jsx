@@ -20,9 +20,10 @@ function CategoryView() {
 		const baseUrl = `${import.meta.env.VITE_REACT_APP_API}`
 		try {
 			const response = await axios.get(`${baseUrl}/products/category?id=${id}`)
-			if (response.data?.success && response.data.products?.length > 0) {
+			console.log(response)
+			if (response.data?.success && response.data.allProducts?.length > 0) {
 				setIsAvailable(true)
-				setAvailableProducts(response.data.products)
+				setAvailableProducts(response.data.allProducts)
 			} else {
 				setIsAvailable(false)
 			}
