@@ -75,6 +75,7 @@ const CartProvider = ({ children }) => {
 				setCartLength,
 				updateTotalValue,
 				setFetchCart,
+				updateCartLength,
 			}}
 		>
 			{children}
