@@ -8,11 +8,13 @@ import { useState } from "react"
 import Spinner from "../../../Components/Utils/Spinner"
 import Waves from "../../../Components/Layouts/Waves"
 import { motion } from "framer-motion"
+import UseCart from "../../Products/hooks/UseCart"
 
 function Login() {
 	const navigate = useNavigate()
 	// eslint-disable-next-line no-unused-vars
 	const [auth, setAuth] = useAuth()
+	const { fetchCart, setFetchCart } = UseCart()
 	const [isLoading, setIsLoading] = useState(false)
 
 	const initialValues = {
@@ -40,11 +42,11 @@ function Login() {
 				// console.log(response.data)
 			}
 			localStorage.setItem("accessToken", JSON.stringify(response.data?.token))
+
 			toast.success("Logged in successfully")
 			navigate(location.state || `/`)
 
-			// console.log(response)
-			// setAuth({ data })
+			setFetchCart(!fetchCart)
 			setIsLoading(false)
 		} catch (error) {
 			// console.log(error)

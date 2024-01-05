@@ -7,7 +7,6 @@ import toast from "react-hot-toast"
 
 const CartComponent = () => {
 	const { cartLength, fetchCart, setFetchCart, totalValue, cartItems } = UseCart()
-	console.log(cartItems)
 	const baseUrl = `${import.meta.env.VITE_REACT_APP_API}`
 	const handleRemoveItem = async (itemId) => {
 		const localAuth = JSON.parse(localStorage.getItem("accessToken"))
@@ -46,7 +45,7 @@ const CartComponent = () => {
 								<span className="text-md break-words">
 									{item.product.name.length > 15 ? item.product.name.substring(0, 15) + "..." : item.product.name}
 								</span>
-								<span className="text-md">Price: ${item.price}</span>
+								<span className="text-md">Price: ${item.product.price}</span>
 								<span className="text-md">Quantity: {item.quantity}</span>
 								<span>
 									<button className="bg-gray-500 hover:bg-gray-700 p-1 text-white rounded-md " onClick={() => handleRemoveItem(item.cartItemId)}>
