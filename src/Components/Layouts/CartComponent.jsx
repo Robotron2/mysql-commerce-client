@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react"
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import UseCart from "../../Pages/Products/hooks/UseCart"
 import axios from "axios"
@@ -13,12 +12,12 @@ const CartComponent = () => {
 		try {
 			const response = await axios.delete(`${baseUrl}/carts/remove/${itemId}`, {
 				headers: {
-					accessToken: `${localAuth?.token}`,
+					Authorization: localAuth,
 				},
 			})
 
 			if (response.status === 204) {
-				toast.success("Item removed successfully")
+				toast.success("Product removed from cart")
 				setFetchCart(!fetchCart)
 			}
 		} catch (error) {
@@ -48,7 +47,7 @@ const CartComponent = () => {
 								<span className="text-md">Price: ${item.product.price}</span>
 								<span className="text-md">Quantity: {item.quantity}</span>
 								<span>
-									<button className="bg-gray-500 hover:bg-gray-700 p-1 text-white rounded-md " onClick={() => handleRemoveItem(item.cartItemId)}>
+									<button className="bg-gray-500 hover:bg-gray-700 p-1 text-white rounded-md " onClick={() => handleRemoveItem(item.product.id)}>
 										Remove item
 									</button>
 								</span>
